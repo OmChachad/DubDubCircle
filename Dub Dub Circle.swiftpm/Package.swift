@@ -10,7 +10,7 @@ import AppleProductTypes
 let package = Package(
     name: "Dub Dub Circle",
     platforms: [
-        .iOS("16.0")
+        .iOS("17.0")
     ],
     products: [
         .iOSApplication(
