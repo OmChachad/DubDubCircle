@@ -17,13 +17,16 @@ class Contact {
     var phone: String?
     var notes: String
     @Attribute(.externalStorage) var businessCard: BusinessCard?
+    var events: [DeveloperEvent]
     
-    init(id: UUID, imageData: Data? = nil, name: String, email: String, phone: String, notes: String) {
+    init(id: UUID = UUID(), imageData: Data? = nil, name: String, email: String? = nil, phone: String? = nil, notes: String, businessCard: BusinessCard? = nil, events: [DeveloperEvent]) {
         self.id = id
         self.imageData = imageData
         self.name = name
         self.email = email
         self.phone = phone
         self.notes = notes
+        self.businessCard = businessCard
+        self.events = events
     }
 }
