@@ -6,13 +6,20 @@
 //
 
 import MapKit
+import Contacts
 
 struct Location: Codable {
     var name: String
-    var latitude: Double
-    var longitude: Double
+    var address: String
     
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    var latitude: Double?
+    var longitude: Double?
+    
+    var coordinate: CLLocationCoordinate2D? {
+        if let latitude = latitude, let longitude = longitude {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+        
+        return nil
     }
 }
