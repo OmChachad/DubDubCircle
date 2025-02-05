@@ -74,6 +74,8 @@ struct NewEventView: View {
                             let event = DeveloperEvent(title: title, date: date, location: location)
                             modelContext.insert(event)
                         }
+                        
+                        dismiss()
                     }
                 }
                 
