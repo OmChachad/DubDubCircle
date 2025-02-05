@@ -23,3 +23,15 @@ struct Location: Codable {
         return nil
     }
 }
+
+extension Location {
+    init?(mapItem: MKMapItem) {
+        guard let name = mapItem.name else { return nil }
+        
+        let coord = mapItem.placemark.coordinate
+        self.address = CNPostalAddressFormatter().string(from: mapItem.placemark.postalAddress ?? CNMutablePostalAddress()).split(separator: "\n").joined(separator: ", ")
+        self.name = name
+        self.latitude = coord.latitude
+        self.longitude = coord.longitude
+    }
+}
