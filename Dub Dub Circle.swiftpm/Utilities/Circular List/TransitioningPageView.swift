@@ -47,26 +47,30 @@ struct TransitioningPageView<Content: View>: View {
                 .gesture (
                     DragGesture()
                         .onEnded { drag in
-                            drag.translation.width > 0 ? previous() : next()
+                            if collection.count > 1 {
+                                drag.translation.width > 0 ? previous() : next()
+                            }
                         }
                 )
                 .overlay {
-                    HStack {
-                        ForEach(0..<collection.count) { i in
-                            Circle()
-                                .fill(i == index ? (colorScheme == .dark ? Color.white : Color.black) : Color.gray.opacity(0.5))
-                                .frame(width: 8, height: 8)
-                                .onTapGesture {
-                                    withAnimation {
-                                        index = i
+                    if collection.count > 1 {
+                        HStack {
+                            ForEach(0..<collection.count) { i in
+                                Circle()
+                                    .fill(i == index ? (colorScheme == .dark ? Color.white : Color.black) : Color.gray.opacity(0.5))
+                                    .frame(width: 8, height: 8)
+                                    .onTapGesture {
+                                        withAnimation {
+                                            index = i
+                                        }
                                     }
-                                }
+                            }
                         }
+                        .padding(7.5)
+                        .background(.ultraThinMaterial, in: .capsule)
+                        .matchedGeometryEffect(id: "page", in: nm)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
                     }
-                    .padding(7.5)
-                    .background(.ultraThinMaterial, in: .capsule)
-                    .matchedGeometryEffect(id: "page", in: nm)
-                    .frame(maxHeight: .infinity, alignment: .bottom)
                 }
         }
         
