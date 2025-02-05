@@ -35,7 +35,7 @@ struct CircularList<Content:View>: View {
                                             let y = sin(angle.radians) * radius
                                             
                                             collection[range][index]
-                                                .foregroundStyle(Color.blue)
+                                                .glow()
                                                 .frame(width: 100, height: 100)
                                                 .position(
                                                     x: geometry.size.width / 2 + x,
