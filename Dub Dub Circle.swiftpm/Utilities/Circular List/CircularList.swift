@@ -18,7 +18,7 @@ struct CircularList<Content:View>: View {
                     
                     Group(subviews: content) { collection in
                         collection.first
-                            .frame(width: 150, height: 150)
+                            .frame(width: 175, height: 175)
                             .zIndex(1)
                         
                         let ranges = splitIntoRanges(count: collection.count, size: 7)
