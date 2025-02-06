@@ -19,6 +19,16 @@ class Contact {
     @Attribute(.externalStorage) var businessCard: BusinessCard?
     var events: [DeveloperEvent]
     
+    var profilePhoto: Image {
+        if let data = imageData {
+            if let uiImage = UIImage(data: data) {
+                return Image(uiImage: uiImage)
+            }
+        }
+        
+        return Image(systemName: "person.circle")
+    }
+    
     init(id: UUID = UUID(), imageData: Data? = nil, name: String, email: String? = nil, phone: String? = nil, notes: String, businessCard: BusinessCard? = nil, events: [DeveloperEvent]) {
         self.id = id
         self.imageData = imageData
