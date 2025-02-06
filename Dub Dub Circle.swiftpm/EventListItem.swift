@@ -22,13 +22,13 @@ struct EventListItem: View {
                         .font(.headline)
                     //                +
                     Text((event.location?.name ?? "Online"))
-                        .foregroundColor(.primary.opacity(0.5))
+                        .opacity(0.6)
                 }
                 .lineLimit(1)
                 
                 Text(event.date, style: .date)
                     .font(.subheadline)
-                    .foregroundColor(.primary.opacity(0.5))
+                    .opacity(0.6)
                 
             }
             
