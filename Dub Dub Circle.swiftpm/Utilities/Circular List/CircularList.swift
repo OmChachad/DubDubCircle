@@ -14,11 +14,11 @@ struct CircularList<Content:View>: View {
         VStack {
             GeometryReader { geometry in
                 ZStack {
-                    let radius = 200.0
+                    let radius: Double = 170.0
                     
                     Group(subviews: content) { collection in
                         collection.first
-                            .frame(width: 175, height: 175)
+                            .frame(width: 150, height: 150)
                             .zIndex(1)
                         
                         let ranges = splitIntoRanges(count: collection.count, size: 7)
