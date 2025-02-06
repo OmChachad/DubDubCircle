@@ -65,7 +65,6 @@ struct EventDetails: View {
                         .foregroundStyle(Color(uiColor: .systemGray5))
                         .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
                 }
-                .buttonStyle(.plain)
                 
                 if event.attendees.count%7 != 0 || event.attendees.count == 0 {
                     ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
