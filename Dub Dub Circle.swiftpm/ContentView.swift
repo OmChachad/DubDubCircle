@@ -19,6 +19,9 @@ struct ContentView: View {
                         ForEach(events) { event in
                             NavigationLink {
                                 EventDetails(event: event)
+                                    .onAppear {
+                                        columnVisibility = .detailOnly
+                                    }
                             } label: {
                                 EventListItem(event: event)
                             }
@@ -46,7 +49,7 @@ struct ContentView: View {
                 NewEventView()
             }
         } detail: {
-            
+            ContentUnavailableView("No event circle selected.", systemImage: "person.2.slash.fill")
         }
 
     }
