@@ -16,6 +16,7 @@ struct EventDetails: View {
     }
     
     @State private var viewStyle: ViewStyle = .circular
+    @State private var showNewAttendeeView = false
     
     var body: some View {
         NavigationStack {
@@ -59,7 +60,7 @@ struct EventDetails: View {
                 }
                 
                 Button {
-                    // Add new attendee
+                    showNewAttendeeView = true
                 } label: {
                     Circle()
                         .foregroundStyle(Color(uiColor: .systemGray5))
@@ -69,7 +70,7 @@ struct EventDetails: View {
                 if event.attendees.count%7 != 0 || event.attendees.count == 0 {
                     ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
                         Button {
-                            // Add new attendee
+                            showNewAttendeeView = true
                         } label: {
                             Circle()
                                 .foregroundStyle(Color(uiColor: .systemGray5))
@@ -111,7 +112,7 @@ struct EventDetails: View {
                 
                 if event.attendees.count%7 == 0 && event.attendees.count != 0 {
                     Button {
-                        
+                        showNewAttendeeView = true
                     } label: {
                         Label("Add Attendee", systemImage: "person.fill.badge.plus")
                             .foregroundStyle(.white)
@@ -139,6 +140,9 @@ struct EventDetails: View {
             }
             .padding()
             .padding(.horizontal)
+            .sheet(isPresented: $showNewAttendeeView) {
+                NewAttendeeView(event: event)
+            }
         }
     }
 }
