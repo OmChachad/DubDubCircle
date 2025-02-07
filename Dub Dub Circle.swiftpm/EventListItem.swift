@@ -45,7 +45,13 @@ struct EventListItem: View {
                 attendee.profilePhoto
                     .resizable()
                     .scaledToFit()
+                    .scaledToFill()
                     .clipShape(Circle())
+                    .overlay {
+                        Circle()
+                            .fill(.clear)
+                            .stroke(Color.white, lineWidth: 1)
+                    }
                     .frame(width: 30, height: 30)
                     .zIndex(Double(3 - index))
                     .offset(x: CGFloat(index * 10))
