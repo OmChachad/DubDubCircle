@@ -44,10 +44,6 @@ struct CircularList<Content:View>: View {
                                                 .transition(.blurReplace)
                                         }
                                     }
-                                    .onAppear {
-                                        print(range.upperBound)
-                                        print(range.lowerBound)
-                                    }
                                 }
                             }
                         }
