@@ -37,6 +37,8 @@ struct CircularList<Content:View>: View {
                                             collection[range][index]
                                                 .glow()
                                                 .frame(width: 100, height: 100)
+                                                .contentShape(.hoverEffect, .circle)
+                                                .hoverEffect(.lift)
                                                 .position(
                                                     x: geometry.size.width / 2 + x,
                                                     y: geometry.size.height / 2 + y
