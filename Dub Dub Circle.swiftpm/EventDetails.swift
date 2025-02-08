@@ -54,17 +54,7 @@ struct EventDetails: View {
                     .glow()
                 
                 ForEach(event.attendees, id: \.self) { attendee in
-                    NavigationLink {
-                        AttendeeDetails(attendee: attendee)
-                            .navigationTransition(.zoom(sourceID: "\(attendee.id.uuidString)", in: namespace))
-                    } label: {
-                        attendee.profilePhoto
-                            .resizable()
-                            .scaledToFit()
-                            .scaledToFill()
-                            .clipShape(Circle())
-                            .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
-                    }
+                    AttendeeItem(attendee: attendee, namespace: _namespace)
                 }
                 
                 Button {
