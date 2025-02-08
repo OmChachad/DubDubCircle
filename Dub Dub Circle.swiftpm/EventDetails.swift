@@ -18,6 +18,8 @@ struct EventDetails: View {
     @State private var viewStyle: ViewStyle = .circular
     @State private var showNewAttendeeView = false
     
+    @Namespace var namespace
+    
     var body: some View {
         NavigationStack {
             Spacer()
@@ -52,11 +54,17 @@ struct EventDetails: View {
                     .glow()
                 
                 ForEach(event.attendees, id: \.self) { attendee in
-                    attendee.profilePhoto
-                        .resizable()
-                        .scaledToFit()
-                        .scaledToFill()
-                        .clipShape(Circle())
+                    NavigationLink {
+                        AttendeeDetails(attendee: attendee)
+                            .navigationTransition(.zoom(sourceID: "\(attendee.id.uuidString)", in: namespace))
+                    } label: {
+                        attendee.profilePhoto
+                            .resizable()
+                            .scaledToFit()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
+                    }
                 }
                 
                 Button {
