@@ -93,7 +93,8 @@ struct NewAttendeeView: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [event])
+                        let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [])
+                        event.attendees.append(newAttendee)
                         modelContext.insert(newAttendee)
                         dismiss()
                     }
