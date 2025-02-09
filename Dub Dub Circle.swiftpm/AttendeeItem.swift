@@ -46,17 +46,16 @@ struct AttendeeItem: View {
                     }
                 }
             }
-            Button("Delete", systemImage: "trash", role: .destructive) {
-                showDeleteConfirmation = true
+            
+            Section(attendee.name) {
+                Button("Delete", systemImage: "trash", role: .destructive) {
+                    showDeleteConfirmation = true
+                }
             }
         }
         .alert("Are you sure you want to delete \(attendee.name)?", isPresented: $showDeleteConfirmation) {
             Button("Delete", role: .destructive) {
                 modelContext.delete(attendee)
-            }
-            
-            Button("Cancel") {
-                showDeleteConfirmation = false
             }
         } message: {
             Text("This action cannot be undone.")
