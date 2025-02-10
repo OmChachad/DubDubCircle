@@ -24,6 +24,9 @@ struct NewAttendeeView: View {
     @State private var notes = ""
     
     @State private var businessCard: BusinessCard?
+    
+    @State private var developmentPlatforms: Set<Contact.Platform> = []
+    @State private var developmentFrameworks: Set<Contact.DevelopmentFramework> = []
 
     var body: some View {
         NavigationStack {
@@ -68,6 +71,54 @@ struct NewAttendeeView: View {
                     TextField("Name", text: $name)
                 }
                 
+                Section("Development Experience") {
+                    HStack {
+                        Text("Platforms")
+                        
+                        Spacer()
+                        
+                        ForEach(Contact.Platform.allCases, id: \.self) { platform in
+                            Image(systemName: platform.iconName)
+                                .symbolEffect(.bounce, value: developmentPlatforms.contains(platform))
+                                .imageScale(.large)
+                                .foregroundStyle(Color.accentColor)
+                                .opacity(developmentPlatforms.contains(platform) ? 1 : 0.3)
+                                .onTapGesture {
+                                    withAnimation {
+                                        if developmentPlatforms.contains(platform) {
+                                            developmentPlatforms.remove(platform)
+                                        } else {
+                                            developmentPlatforms.insert(platform)
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Framework Experience")
+                        
+                        Spacer()
+                        
+                        ForEach(Contact.DevelopmentFramework.allCases, id: \.self) { framework in
+                            Text(framework.rawValue)
+                                .fontWidth(.expanded)
+                                .foregroundStyle(Color.accentColor)
+                                .opacity(developmentFrameworks.contains(framework) ? 1 : 0.3)
+                                .onTapGesture {
+                                    withAnimation {
+                                        if developmentFrameworks.contains(framework) {
+                                            developmentFrameworks.remove(framework)
+                                        } else {
+                                            developmentFrameworks.insert(framework)
+                                        }
+                                    }
+                                }
+                                .padding(.leading, 10)
+                        }
+                    }
+                }
+                
                 Section("Contact Details") {
                     BusinessCardPicker(card: $businessCard)
                     
@@ -93,7 +144,7 @@ struct NewAttendeeView: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [])
+                        let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
                         event.attendees.append(newAttendee)
                         modelContext.insert(newAttendee)
                         dismiss()

@@ -32,10 +32,25 @@ struct AttendeeDetails: View {
                         Text(attendee.name)
                             .font(.title)
                             .bold()
-                        Text("First met on \(attendee.events.first?.date.formatted() ?? "Unknown Event")")
+                    
+                    if let city = attendee.city, !city.isEmpty {
+                        Text("\(Image(systemName: "mappin.and.ellipse") ) \(city)")
                             .foregroundColor(.secondary)
+                    }
+                            
+                    
+                    ViewThatFits {
+                        HStack {
+                            developerDetails()
+                        }
+                        
+                        VStack(spacing: 5) {
+                            developerDetails()
+                        }
+                    }
+                    .padding(.vertical, 10)
                 }
-                .padding()
+                .padding(.top, 10)
             }
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowBackground(Color(uiColor: UIColor.systemGroupedBackground))
@@ -86,9 +101,32 @@ struct AttendeeDetails: View {
                 }
         }
     }
+    
+    func developerDetails() -> some View {
+        Group {
+            HStack {
+                if !attendee.developmentPlatforms.isEmpty {
+                    Text("Building for")
+                    ForEach(attendee.developmentPlatforms, id: \.self) { platform in
+                        Image(systemName: platform.iconName)
+                            .font(.title2)
+                            .fontWeight(.light)
+                    }
+                }
+            }
+            
+            HStack {
+                if !attendee.developmentFrameworks.isEmpty {
+                    Text("using")
+                    Text(ListFormatter.localizedString(byJoining: attendee.developmentFrameworks.map { $0.displayName }))
+                        .bold()
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     let image = UIImage(named: "Profile")?.pngData()
-    AttendeeDetails(attendee: Contact(imageData: image, name: "Om Chachad", notes: "iOS Developer", events: []))
+    AttendeeDetails(attendee: Contact(imageData: image, name: "Om Chachad", notes: "iOS Developer", city: "Mumbai", events: [], developmentPlatforms: [.iphone, .ipad, .vision, .watch, .tv], developmentFrameworks: [.swiftUI, .uiKit, .other]))
 }
