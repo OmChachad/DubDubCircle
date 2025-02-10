@@ -100,6 +100,9 @@ struct AttendeeDetails: View {
                     attendee.notes = attendeeNotes
                 }
         }
+        .frame(maxWidth: 800)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .background(Color(uiColor: UIColor.systemGroupedBackground))
     }
     
     func developerDetails() -> some View {
