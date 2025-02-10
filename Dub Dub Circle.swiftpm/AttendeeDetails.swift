@@ -26,7 +26,7 @@ struct AttendeeDetails: View {
                         .scaledToFill()
                         .frame(width: 200, height: 200)
                         .clipShape(Circle())
-                        .shadow(radius: 10)
+                        .glow()
                         .accessibilityHidden(true)
                     
                         Text(attendee.name)
