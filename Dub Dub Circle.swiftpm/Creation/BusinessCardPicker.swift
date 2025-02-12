@@ -33,7 +33,7 @@ struct BusinessCardPicker: View {
                         pickerMenu
                             .labelStyle(.iconOnly)
                             .imageScale(.large)
-                            .padding(5)
+                            .padding(10)
                             .background(.regularMaterial, in: .circle)
                             .padding(10)
                     }
