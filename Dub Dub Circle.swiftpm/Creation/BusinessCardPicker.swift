@@ -95,6 +95,8 @@ struct BusinessCardPicker: View {
                     self.imageData = uiImage
                 }
             }
+            
+            photoPickerItem = nil
         }
     }
     
