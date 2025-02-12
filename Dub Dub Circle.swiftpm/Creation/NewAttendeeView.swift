@@ -120,12 +120,14 @@ struct NewAttendeeView: View {
                 }
                 
                 Section("Contact Details") {
-                    BusinessCardPicker(card: $businessCard)
-                    
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                     TextField("Phone", text: $phone)
                         .keyboardType(.phonePad)
+                }
+                
+                Section("Business Card") {
+                    BusinessCardPicker(card: $businessCard)
                 }
                 
                 Section("Notes") {
