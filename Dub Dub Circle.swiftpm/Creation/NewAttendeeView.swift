@@ -51,7 +51,7 @@ struct NewAttendeeView: View {
                             .background(Color(.systemGray5), in: .circle)
                     }
                 }
-                .padding(10)
+                .padding(5)
                 .onTapGesture {
                     showPhotoPicker = true
                 }
