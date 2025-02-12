@@ -83,7 +83,7 @@ struct BusinessCardPicker: View {
                 Label("Scan Business Card", systemImage: "doc.text.viewfinder")
             }
         } label: {
-            Label("Add Business Card", systemImage: "plus")
+            Label("Add Business Card", systemImage: "person.crop.square.filled.and.at.rectangle.fill")
         }
     }
     
