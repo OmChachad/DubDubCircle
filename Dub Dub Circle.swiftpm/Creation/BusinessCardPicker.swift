@@ -39,17 +39,17 @@ struct BusinessCardPicker: View {
                     }
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
-                if let email = card?.email {
+                if let email = card?.email, !email.isEmpty {
                     LabeledContent("Email") {
                         Link(email, destination: URL(string: "mailto:\(email)")!)
                     }
                 }
 
-                if let phone = card?.phone {
+                if let phone = card?.phone, !phone.isEmpty {
                     LabeledContent("Phone", value: phone)
                 }
 
-                if let address = card?.address {
+                if let address = card?.address, !address.isEmpty {
                     LabeledContent("Address", value: address)
                 }
 
