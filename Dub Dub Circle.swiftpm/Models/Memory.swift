@@ -12,5 +12,4 @@ struct Memory: Codable {
     var date: Date
     var description: String
     
-    var journal: [JournalEntry]
 }

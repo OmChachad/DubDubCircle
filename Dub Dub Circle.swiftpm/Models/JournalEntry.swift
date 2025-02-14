@@ -12,5 +12,4 @@ struct JournalEntry: Codable {
     var journalContents: AttributedString
     
     var date: Date
-    var media: [Memory]
 }
