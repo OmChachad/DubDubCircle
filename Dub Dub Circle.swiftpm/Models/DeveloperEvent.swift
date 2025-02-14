@@ -18,7 +18,8 @@ class DeveloperEvent {
     var wasOnline: Bool
     
     @Relationship(inverse: \Contact.events) var attendees: [Contact]
-    var memories: [Memory]
+    
+    @Attribute(.externalStorage) var memories: [Memory]
     var journalEntries: [JournalEntry]
     
     init(title: String, attendees: [Contact] = [], memories: [Memory] = [], journalEntries: [JournalEntry] = [], date: Date, location: Location) {
