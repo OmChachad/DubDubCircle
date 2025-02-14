@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct Memory: Codable {
+struct Memory: Codable, Hashable {
+    var id: UUID = UUID()
     var imageData: Data
-    var date: Date
-    var description: String
+    var date: Date = .now
+    var description: String = ""
     
+    var image: Image {
+        return Image(uiImage: UIImage(data: imageData)!)
+    }
 }
