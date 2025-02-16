@@ -31,6 +31,9 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ],
+            capabilities: [
+                .photoLibrary(purposeString: "Please allow Photo Library access so that Dub Dub Circle can store details about your selected memories.")
             ]
         )
     ],

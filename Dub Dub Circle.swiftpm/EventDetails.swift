@@ -20,6 +20,8 @@ struct EventDetails: View {
     
     @Namespace var namespace
     
+    @State private var showMemoriesView = false
+    
     var body: some View {
         NavigationStack {
             Spacer()
@@ -85,7 +87,7 @@ struct EventDetails: View {
         .overlay(alignment: .bottom) {
             HStack(alignment: .center) {
                 Button {
-                    
+                    showMemoriesView = true
                 } label: {
                     Label("Memories", systemImage: "photo.on.rectangle.angled.fill")
                         .foregroundStyle(AngularGradient(
@@ -104,6 +106,9 @@ struct EventDetails: View {
                         .background(Color.white, in: .circle)
                         .bold()
                         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+                }
+                .sheet(isPresented: $showMemoriesView) {
+                    MemoriesView(event: event)
                 }
                 
                 Spacer()
