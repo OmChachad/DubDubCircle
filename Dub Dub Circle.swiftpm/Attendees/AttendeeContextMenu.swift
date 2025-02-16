@@ -59,6 +59,7 @@ struct AttendeeContextMenu: ViewModifier {
             .alert("Are you sure you want to delete \(attendee.name)?", isPresented: $showDeleteConfirmation) {
                 Button("Delete", role: .destructive) {
                     modelContext.delete(attendee)
+                    try? modelContext.save()
                 }
             } message: {
                 Text("This action cannot be undone.")
