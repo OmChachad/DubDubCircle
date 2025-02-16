@@ -29,7 +29,7 @@ struct AttendeeContextMenu: ViewModifier {
                         Button("Message", systemImage: "message") {
                             openURL(URL(string: "sms:\(phone)")!)
                         }
-                    } else if let phone = attendee.businessCard?.phone {
+                    } else if let phone = attendee.businessCard?.phone, !phone.isEmpty {
                         Button("Call", systemImage: "phone") {
                             openURL(URL(string: "tel:\(phone)")!)
                         }
@@ -39,11 +39,11 @@ struct AttendeeContextMenu: ViewModifier {
                         }
                     }
                     
-                    if let email = attendee.email {
+                    if let email = attendee.email, !email.isEmpty {
                         Button("Email", systemImage: "envelope") {
                             openURL(URL(string: "mailto:\(email)")!)
                         }
-                    } else if let email = attendee.businessCard?.email {
+                    } else if let email = attendee.businessCard?.email, !email.isEmpty {
                         Button("Email", systemImage: "envelope") {
                             openURL(URL(string: "mailto:\(email)")!)
                         }
