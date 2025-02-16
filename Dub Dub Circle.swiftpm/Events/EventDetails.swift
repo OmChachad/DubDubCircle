@@ -59,14 +59,6 @@ struct EventDetails: View {
                     AttendeeItem(attendee: attendee, namespace: _namespace)
                 }
                 
-                Button {
-                    showNewAttendeeView = true
-                } label: {
-                    Circle()
-                        .foregroundStyle(Color(uiColor: .systemGray5))
-                        .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
-                }
-                
                 if event.attendees.count%7 != 0 || event.attendees.count == 0 {
                     ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
                         Button {
@@ -76,6 +68,14 @@ struct EventDetails: View {
                                 .foregroundStyle(Color(uiColor: .systemGray5))
                         }
                     }
+                }
+                
+                Button {
+                    showNewAttendeeView = true
+                } label: {
+                    Circle()
+                        .foregroundStyle(Color(uiColor: .systemGray5))
+                        .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
                 }
             }
             .frame(maxHeight: 700)
