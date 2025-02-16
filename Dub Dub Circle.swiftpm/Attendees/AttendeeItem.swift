@@ -24,9 +24,12 @@ struct AttendeeItem: View {
                 .resizable()
                 .scaledToFit()
                 .scaledToFill()
+                .background(Color(uiColor: .systemGray5))
                 .clipShape(Circle())
                 .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
         }
+        .foregroundStyle(Color(uiColor: .systemGray2))
+        .buttonStyle(.plain)
         .contentShape(.contextMenuPreview, .circle)
         .attendeeContextMenu(attendee: attendee)
     }
