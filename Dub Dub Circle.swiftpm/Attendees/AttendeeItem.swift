@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AttendeeItem: View {
-    @Environment(\.openURL) var openURL
     @Environment(\.modelContext) var modelContext
     
     var attendee: Contact
@@ -29,50 +28,6 @@ struct AttendeeItem: View {
                 .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
         }
         .contentShape(.contextMenuPreview, .circle)
-        .contextMenu {
-            ControlGroup {
-                #warning("Clean this up")
-                if let phone = attendee.phone?.replacingOccurrences(of: " ", with: ""), !phone.isEmpty {
-                    Button("Call", systemImage: "phone") {
-                        openURL(URL(string: "tel:\(phone)")!)
-                    }
-                    
-                    Button("Message", systemImage: "message") {
-                        openURL(URL(string: "sms:\(phone)")!)
-                    }
-                } else if let phone = attendee.businessCard?.phone {
-                    Button("Call", systemImage: "phone") {
-                        openURL(URL(string: "tel:\(phone)")!)
-                    }
-                    
-                    Button("Message", systemImage: "message") {
-                        openURL(URL(string: "sms:\(phone)")!)
-                    }
-                }
-                
-                if let email = attendee.email {
-                    Button("Email", systemImage: "envelope") {
-                        openURL(URL(string: "mailto:\(email)")!)
-                    }
-                } else if let email = attendee.businessCard?.email {
-                    Button("Email", systemImage: "envelope") {
-                        openURL(URL(string: "mailto:\(email)")!)
-                    }
-                }
-            }
-            
-            Section(attendee.name) {
-                Button("Delete", systemImage: "trash", role: .destructive) {
-                    showDeleteConfirmation = true
-                }
-            }
-        }
-        .alert("Are you sure you want to delete \(attendee.name)?", isPresented: $showDeleteConfirmation) {
-            Button("Delete", role: .destructive) {
-                modelContext.delete(attendee)
-            }
-        } message: {
-            Text("This action cannot be undone.")
-        }
+        .attendeeContextMenu(attendee: attendee)
     }
 }
