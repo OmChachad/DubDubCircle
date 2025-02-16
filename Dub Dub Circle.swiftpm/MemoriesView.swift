@@ -20,26 +20,24 @@ struct MemoriesView: View {
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geo in
-                ScrollView(.horizontal) {
-                    LazyHStack {
-                        ForEach($event.memories, id: \.self) { $memory in
-                            MemoriesItem(memory: $memory) {
-                                event.memories.removeAll { $0.id == memory.id }
-                                try? modelContext.save()
-                            }
+            ScrollView(.horizontal) {
+                LazyHStack {
+                    ForEach($event.memories, id: \.self) { $memory in
+                        MemoriesItem(memory: $memory) {
+                            event.memories.removeAll { $0.id == memory.id }
+                            try? modelContext.save()
                         }
-                        .scrollTransition(.interactive, axis: .horizontal) { view, phase in
-                            view
-                                .blur(radius: phase.isIdentity ? 0 : 5)
-                                .opacity(phase.isIdentity ? 1: 0.75)
-                                .rotation3DEffect(.degrees(phase.value * 10),
-                                                  axis: (x: 0, y: -1, z: 0))
-                        }
-                        .containerRelativeFrame(.horizontal, count: 1, spacing: 20)
                     }
-                    .scrollTargetLayout()
+                    .scrollTransition(.interactive, axis: .horizontal) { view, phase in
+                        view
+                            .blur(radius: phase.isIdentity ? 0 : 5)
+                            .opacity(phase.isIdentity ? 1: 0.75)
+                            .rotation3DEffect(.degrees(phase.value * 10),
+                                              axis: (x: 0, y: -1, z: 0))
+                    }
+                    .containerRelativeFrame(.horizontal, count: 1, spacing: 20)
                 }
+                .scrollTargetLayout()
             }
             .navigationTitle("Memories")
             .navigationBarTitleDisplayMode(.inline)
