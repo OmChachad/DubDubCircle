@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Query var events: [DeveloperEvent]
+    @Query(sort: \DeveloperEvent.date, order: .reverse, animation: .default) var events: [DeveloperEvent]
     
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
     
