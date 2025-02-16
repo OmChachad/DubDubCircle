@@ -9,31 +9,31 @@ struct ContentView: View {
     @State private var showEventCreationSheet = false
     
     var groupedEvents: [(key: String, value: [DeveloperEvent])] {
-            let calendar = Calendar.current
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM yyyy" // e.g., "January 2023"
-
-            let today = Date()
-            
-            let grouped = Dictionary(grouping: events) { event in
-                if calendar.isDate(event.date, equalTo: today, toGranularity: .weekOfYear) {
-                    return "This Week"
-                } else if calendar.isDate(event.date, equalTo: today, toGranularity: .month) {
-                    return "This Month"
-                } else {
-                    let eventYear = calendar.component(.year, from: event.date)
-                    let currentYear = calendar.component(.year, from: today)
-                    formatter.dateFormat = (eventYear == currentYear) ? "MMMM" : "MMMM yyyy"
-                    return formatter.string(from: event.date)
-                }
-            }
-            
-            // Sort sections by date
-            return grouped.sorted { section1, section2 in
-                guard let date1 = section1.value.first?.date, let date2 = section2.value.first?.date else { return false }
-                return date1 > date2
+        let calendar = Calendar.current
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM yyyy"
+        
+        let today = Date.now
+        
+        let grouped = Dictionary(grouping: events) { event in
+            if calendar.isDate(event.date, equalTo: today, toGranularity: .weekOfYear) {
+                return "This Week"
+            } else if calendar.isDate(event.date, equalTo: today, toGranularity: .month) {
+                return "This Month"
+            } else {
+                let eventYear = calendar.component(.year, from: event.date)
+                let currentYear = calendar.component(.year, from: today)
+                formatter.dateFormat = (eventYear == currentYear) ? "MMMM" : "MMMM yyyy"
+                return formatter.string(from: event.date)
             }
         }
+        
+        return grouped.sorted { section1, section2 in
+            guard let date1 = section1.value.first?.date, let date2 = section2.value.first?.date else { return false }
+            return date1 > date2
+        }
+    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
