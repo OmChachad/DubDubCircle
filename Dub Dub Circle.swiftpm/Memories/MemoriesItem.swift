@@ -19,6 +19,8 @@ struct MemoriesItem: View {
     
     @State private var description: String
     
+    @State private var showFullScreenPreview = false
+    
     init(memory: Binding<Memory>, deletionAction: @escaping () -> Void) {
         self._memory = memory
         self.deletionAction = deletionAction
@@ -37,6 +39,18 @@ struct MemoriesItem: View {
                 .frame(height: 300)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(radius: 10)
+                .overlay(alignment: .topTrailing) {
+                    Button {
+                        showFullScreenPreview = true
+                    } label: {
+                        Image(systemName: "arrow.down.left.and.arrow.up.right")
+                            .foregroundColor(.white)
+                            .font(.title3)
+                            .padding(10)
+                            .background(.black.opacity(0.7), in: Circle())
+                            .padding(10)
+                    }
+                }
             
             Text(memory.date.formatted(date: .abbreviated, time: .shortened))
                 .bold()
@@ -112,6 +126,20 @@ struct MemoriesItem: View {
                 save()
             } else {
                 isFocused = true
+            }
+        }
+        .fullScreenCover(isPresented: $showFullScreenPreview) {
+            NavigationStack {
+                memory.image
+                    .resizable()
+                    .scaledToFit()
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") {
+                                showFullScreenPreview = false
+                            }
+                        }
+                    }
             }
         }
     }
