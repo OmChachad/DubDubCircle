@@ -80,6 +80,18 @@ struct ContentView: View {
                         .clipShape(Circle())
                         .glow()
                 }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .background {
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .mask {
+                            Rectangle()
+                                .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
+                        }
+                        .frame(height: 120)
+                        .frame(maxWidth: .infinity)
+                        .ignoresSafeArea()
+                }
             }
             .sheet(isPresented: $showEventCreationSheet) {
                 NewEventView()
