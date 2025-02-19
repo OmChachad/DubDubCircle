@@ -46,6 +46,9 @@ struct EventListItem: View {
                     .resizable()
                     .scaledToFit()
                     .scaledToFill()
+                    .foregroundStyle(Color(uiColor: .systemGray))
+                    .fontWeight(.thin)
+                    .background(Color(uiColor: .systemGray5))
                     .clipShape(Circle())
                     .overlay {
                         Circle()
