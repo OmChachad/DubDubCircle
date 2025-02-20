@@ -28,11 +28,7 @@ struct AttendeeItem: View {
         } label: {
             if viewStyle == .list {
                 HStack {
-                    attendee.profilePhoto
-                        .resizable()
-                        .scaledToFit()
-                        .scaledToFill()
-                        .clipShape(Circle())
+                    attendee.profilePhotoCircle
                         .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
                         .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
                         .frame(width: 50, height: 50)
@@ -52,15 +48,10 @@ struct AttendeeItem: View {
                 }
                 .padding(10)
             } else {
-                attendee.profilePhoto
-                    .resizable()
-                    .scaledToFit()
-                    .scaledToFill()
-                    .background(Color(uiColor: .systemGray5))
-                    .clipShape(Circle())
+                attendee.profilePhotoCircle
+                    .glow()
                     .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
                     .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
-                    .foregroundStyle(Color(uiColor: .systemGray2))
                 
                 .contentShape(.contextMenuPreview, .circle)
             }

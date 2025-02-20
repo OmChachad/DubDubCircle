@@ -23,14 +23,26 @@ class Contact {
     var developmentPlatforms: [Platform]
     var developmentFrameworks: [DevelopmentFramework]
     
-    var profilePhoto: Image {
-        if let data = imageData {
-            if let uiImage = UIImage(data: data) {
-                return Image(uiImage: uiImage)
+    @ViewBuilder
+    var profilePhotoCircle: some View {
+        if let imageData, let uiImage = UIImage(data: imageData) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .scaledToFill()
+                .clipShape(Circle())
+        } else {
+            GeometryReader { geo in
+                Image(systemName: "person.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .scaledToFill()
+                    .padding(geo.size.width * 0.3)
+                    .background(Color(uiColor: .systemGray5))
+                    .clipShape(Circle())
+                    .foregroundStyle(Color(uiColor: .systemGray2))
             }
         }
-        
-        return Image(systemName: "person.circle")
     }
     
     enum Platform: String, Codable, CaseIterable {

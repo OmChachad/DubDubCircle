@@ -20,12 +20,8 @@ struct AttendeeDetails: View {
         Form {
             Section {
                 VStack {
-                    attendee.profilePhoto
-                        .resizable()
-                        .scaledToFit()
-                        .scaledToFill()
+                    attendee.profilePhotoCircle
                         .frame(width: 200, height: 200)
-                        .clipShape(Circle())
                         .glow()
                         .accessibilityHidden(true)
                     

@@ -42,14 +42,7 @@ struct EventListItem: View {
             ForEach(attendees, id: \.self) { attendee in
                 let index = attendees.firstIndex(of: attendee)!
                 
-                attendee.profilePhoto
-                    .resizable()
-                    .scaledToFit()
-                    .scaledToFill()
-                    .foregroundStyle(Color(uiColor: .systemGray))
-                    .fontWeight(.thin)
-                    .background(Color(uiColor: .systemGray5))
-                    .clipShape(Circle())
+                attendee.profilePhotoCircle
                     .overlay {
                         Circle()
                             .fill(.clear)
