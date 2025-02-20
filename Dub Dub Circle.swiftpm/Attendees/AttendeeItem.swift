@@ -49,7 +49,6 @@ struct AttendeeItem: View {
                 .padding(10)
             } else {
                 attendee.profilePhotoCircle
-                    .glow()
                     .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
                     .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
                 
