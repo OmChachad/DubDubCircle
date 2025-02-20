@@ -11,26 +11,84 @@ struct AttendeeItem: View {
     @Environment(\.modelContext) var modelContext
     
     var attendee: Contact
-    @Namespace var namespace: Namespace.ID
+    var namespace: Namespace.ID
     
     @State private var showDeleteConfirmation = false
+    
+    enum ViewStyle {
+        case list, circular
+    }
+    
+    var viewStyle: ViewStyle = .circular
     
     var body: some View {
         NavigationLink {
             AttendeeDetails(attendee: attendee)
                 .navigationTransition(.zoom(sourceID: "\(attendee.id.uuidString)", in: namespace))
         } label: {
-            attendee.profilePhoto
-                .resizable()
-                .scaledToFit()
-                .scaledToFill()
-                .background(Color(uiColor: .systemGray5))
-                .clipShape(Circle())
-                .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
+            if viewStyle == .list {
+                HStack {
+                    attendee.profilePhoto
+                        .resizable()
+                        .scaledToFit()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
+                        .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
+                        .frame(width: 50, height: 50)
+                        .padding(.trailing, 10)
+                    
+                    VStack(alignment: .leading) {
+                        Text(attendee.name)
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        
+                        developerDetails()
+                            .frame(height: 20)
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    Spacer()
+                }
+                .padding(10)
+            } else {
+                attendee.profilePhoto
+                    .resizable()
+                    .scaledToFit()
+                    .scaledToFill()
+                    .background(Color(uiColor: .systemGray5))
+                    .clipShape(Circle())
+                    .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
+                    .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
+                    .foregroundStyle(Color(uiColor: .systemGray2))
+                
+                .contentShape(.contextMenuPreview, .circle)
+            }
         }
-        .foregroundStyle(Color(uiColor: .systemGray2))
         .buttonStyle(.plain)
-        .contentShape(.contextMenuPreview, .circle)
         .attendeeContextMenu(attendee: attendee)
+    }
+    
+    func developerDetails() -> some View {
+        HStack {
+            if !attendee.developmentPlatforms.isEmpty {
+                HStack {
+                    Text("Building for")
+                    ForEach(attendee.developmentPlatforms, id: \.self) { platform in
+                        Image(systemName: platform.iconName)
+                            .font(.title3)
+                            .fontWeight(.light)
+                    }
+                }
+            }
+            
+            if !attendee.developmentFrameworks.isEmpty {
+                HStack {
+                    Text("using")
+                    Text(ListFormatter.localizedString(byJoining: attendee.developmentFrameworks.map { $0.displayName }))
+                        .bold()
+                }
+            }
+        }
     }
 }

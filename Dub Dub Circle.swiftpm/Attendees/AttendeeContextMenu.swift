@@ -56,6 +56,12 @@ struct AttendeeContextMenu: ViewModifier {
                     }
                 }
             }
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button("Delete", systemImage: "trash") {
+                    showDeleteConfirmation = true
+                }
+                .tint(.red)
+            }
             .alert("Are you sure you want to delete \(attendee.name)?", isPresented: $showDeleteConfirmation) {
                 Button("Delete", role: .destructive) {
                     withAnimation {

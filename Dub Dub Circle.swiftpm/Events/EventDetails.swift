@@ -33,7 +33,7 @@ struct EventDetails: View {
                 .foregroundStyle(.secondary)
             
             if event.attendees.count > 0 {
-                Picker("", selection: $viewStyle) {
+                Picker("", selection: $viewStyle.animation()) {
                     
                     Image(systemName: "circle.dotted")
                         .tag(ViewStyle.circular)
@@ -46,40 +46,58 @@ struct EventDetails: View {
                 .frame(width: 80)
             }
                 
-            Spacer()
             
-            CircularList {
-                Image("Profile")
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .clipShape(Circle())
-                    .glow()
-                
-                ForEach(event.attendees, id: \.self) { attendee in
-                    AttendeeItem(attendee: attendee, namespace: _namespace)
-                }
-                
-                if event.attendees.count%7 != 0 || event.attendees.count == 0 {
-                    ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
-                        Button {
-                            showNewAttendeeView = true
-                        } label: {
-                            Circle()
-                                .foregroundStyle(Color(uiColor: .systemGray5))
+            switch viewStyle {
+            case .list:
+                Group {
+                    List {
+                        ForEach(event.attendees, id: \.self) { attendee in
+                            AttendeeItem(attendee: attendee, namespace: namespace, viewStyle: .list)
+                                .listRowBackground(Color(uiColor: .systemGray6))
                         }
                     }
+                    .listStyle(.plain)
+                    .background(Color(uiColor: .systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .contentMargins(.bottom, 120, for: .scrollContent)
+                    .contentMargins(.bottom, 110, for: .scrollIndicators)
+                    .padding()
                 }
-                
-                Button {
-                    showNewAttendeeView = true
-                } label: {
-                    Circle()
-                        .foregroundStyle(Color(uiColor: .systemGray5))
-                        .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
+                .frame(maxHeight: .infinity, alignment: .top)
+            case .circular:
+                CircularList {
+                    Image("Profile")
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .clipShape(Circle())
+                        .glow()
+                    
+                    ForEach(event.attendees, id: \.self) { attendee in
+                        AttendeeItem(attendee: attendee, namespace: namespace, viewStyle: .circular)
+                    }
+                    
+                    if event.attendees.count%7 != 0 || event.attendees.count == 0 {
+                        ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
+                            Button {
+                                showNewAttendeeView = true
+                            } label: {
+                                Circle()
+                                    .foregroundStyle(Color(uiColor: .systemGray5))
+                            }
+                        }
+                    }
+                    
+                    Button {
+                        showNewAttendeeView = true
+                    } label: {
+                        Circle()
+                            .foregroundStyle(Color(uiColor: .systemGray5))
+                            .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
+                    }
                 }
+                .frame(maxHeight: 700)
+                .padding(.bottom, event.attendees.count%7 == 0 && event.attendees.count != 0 ? 65 : 40)
             }
-            .frame(maxHeight: 700)
-            .padding(.bottom, event.attendees.count%7 == 0 && event.attendees.count != 0 ? 65 : 40)
             
             Spacer()
         }
@@ -113,7 +131,7 @@ struct EventDetails: View {
                 
                 Spacer()
                 
-                if event.attendees.count%7 == 0 && event.attendees.count != 0 {
+                if (event.attendees.count%7 == 0 && event.attendees.count != 0) || viewStyle == .list{
                     Button {
                         showNewAttendeeView = true
                     } label: {
@@ -143,6 +161,19 @@ struct EventDetails: View {
             }
             .padding()
             .padding(.horizontal)
+            .background {
+                Rectangle()
+                    .fill(.clear)
+                    .background(Color.primary.colorInvert())
+                    .background(.ultraThinMaterial)
+                    .mask {
+                        Rectangle()
+                            .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
+                    }
+                    .frame(height: 150)
+                    .frame(maxWidth: .infinity)
+                    .ignoresSafeArea(.all)
+            }
             .sheet(isPresented: $showNewAttendeeView) {
                 NewAttendeeView(event: event)
             }
