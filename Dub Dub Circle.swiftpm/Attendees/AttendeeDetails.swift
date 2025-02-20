@@ -107,8 +107,8 @@ struct AttendeeDetails: View {
     
     func developerDetails() -> some View {
         Group {
-            HStack {
-                if !attendee.developmentPlatforms.isEmpty {
+            if !attendee.developmentPlatforms.isEmpty {
+                HStack {
                     Text("Building for")
                     ForEach(attendee.developmentPlatforms, id: \.self) { platform in
                         Image(systemName: platform.iconName)
@@ -118,8 +118,8 @@ struct AttendeeDetails: View {
                 }
             }
             
-            HStack {
-                if !attendee.developmentFrameworks.isEmpty {
+            if !attendee.developmentFrameworks.isEmpty {
+                HStack {
                     Text("using")
                     Text(ListFormatter.localizedString(byJoining: attendee.developmentFrameworks.map { $0.displayName }))
                         .bold()
