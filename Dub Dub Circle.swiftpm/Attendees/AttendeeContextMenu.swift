@@ -20,32 +20,26 @@ struct AttendeeContextMenu: ViewModifier {
         
             .contextMenu {
                 ControlGroup {
-                    #warning("Clean this up")
-                    if let phone = attendee.phone?.replacingOccurrences(of: " ", with: ""), !phone.isEmpty {
+                    let phone = [attendee.phone?.replacingOccurrences(of: " ", with: ""), attendee.businessCard?.phone]
+                        .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false ? $0 : nil }
+                        .first
+
+                    if let phone, let callURL = URL(string: "tel:\(phone)"), let smsURL = URL(string: "sms:\(phone)") {
                         Button("Call", systemImage: "phone") {
-                            openURL(URL(string: "tel:\(phone)")!)
+                            openURL(callURL)
                         }
-                        
                         Button("Message", systemImage: "message") {
-                            openURL(URL(string: "sms:\(phone)")!)
-                        }
-                    } else if let phone = attendee.businessCard?.phone, !phone.isEmpty {
-                        Button("Call", systemImage: "phone") {
-                            openURL(URL(string: "tel:\(phone)")!)
-                        }
-                        
-                        Button("Message", systemImage: "message") {
-                            openURL(URL(string: "sms:\(phone)")!)
+                            openURL(smsURL)
                         }
                     }
-                    
-                    if let email = attendee.email, !email.isEmpty {
+
+                    let email = [attendee.email, attendee.businessCard?.email]
+                        .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false ? $0 : nil }
+                        .first
+
+                    if let email, let mailURL = URL(string: "mailto:\(email)") {
                         Button("Email", systemImage: "envelope") {
-                            openURL(URL(string: "mailto:\(email)")!)
-                        }
-                    } else if let email = attendee.businessCard?.email, !email.isEmpty {
-                        Button("Email", systemImage: "envelope") {
-                            openURL(URL(string: "mailto:\(email)")!)
+                            openURL(mailURL)
                         }
                     }
                 }
