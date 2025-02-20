@@ -100,7 +100,7 @@ struct AttendeeDetails: View {
                     attendee.notes = attendeeNotes
                 }
         }
-        .frame(maxWidth: 800)
+        .contentMargins(Edge.Set(arrayLiteral: .horizontal), 300, for: .scrollContent)
         .frame(maxWidth: .infinity, alignment: .center)
         .background(Color(uiColor: UIColor.systemGroupedBackground))
     }
