@@ -163,20 +163,22 @@ struct EventDetails: View {
                     JournalView(event: event)
                 }
             }
-            .padding()
+            .padding(5)
             .padding(.horizontal)
             .background {
-                Rectangle()
-                    .fill(.clear)
-                    .background(Color.primary.colorInvert())
-                    .background(.ultraThinMaterial)
-                    .mask {
-                        Rectangle()
-                            .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
-                    }
-                    .frame(height: 150)
-                    .frame(maxWidth: .infinity)
-                    .ignoresSafeArea(.all)
+                if viewStyle == .list {
+                    Rectangle()
+                        .fill(.clear)
+                        .background(Color.primary.colorInvert())
+                        .background(.ultraThinMaterial)
+                        .mask {
+                            Rectangle()
+                                .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
+                        }
+                        .frame(height: 150)
+                        .frame(maxWidth: .infinity)
+                        .ignoresSafeArea(.all)
+                }
             }
             .sheet(isPresented: $showNewAttendeeView) {
                 NewAttendeeView(event: event)
