@@ -53,9 +53,6 @@ struct ContentView: View {
                                 ForEach(section.value) { event in
                                     NavigationLink {
                                         EventDetails(event: event)
-                                            .onAppear {
-                                                columnVisibility = .detailOnly
-                                            }
                                     } label: {
                                         EventListItem(event: event)
                                     }
