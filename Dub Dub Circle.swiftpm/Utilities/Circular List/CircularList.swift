@@ -17,10 +17,6 @@ struct CircularList<Content:View>: View {
                     let radius: Double = 170.0
                     
                     Group(subviews: content) { collection in
-                        collection.first
-                            .frame(width: 150, height: 150)
-                            .zIndex(1)
-                        
                         let ranges = splitIntoRanges(count: collection.count, size: 7)
                         
                         TransitioningPageView {
@@ -28,9 +24,9 @@ struct CircularList<Content:View>: View {
                                 VStack {
                                     ZStack {
                                         ForEach(collection[range].indices, id: \.self) { index in
-                                            let maxSize = (collection.count - 1) > range.upperBound ? range.count : collection.count - range.lowerBound
+                                            let maxSize = (collection.count - 1) >= range.upperBound ? range.count : collection.count - range.lowerBound
                                             
-                                            let angle = (Angle.degrees(Double(index - (7*offset)) / Double(maxSize) * 360))
+                                            let angle = (Angle.degrees(Double(index) / Double(maxSize) * 360))
                                             let x = cos(angle.radians) * radius
                                             let y = sin(angle.radians) * radius
                                             
@@ -56,7 +52,7 @@ struct CircularList<Content:View>: View {
     }
     
     func splitIntoRanges(count: Int, size: Int = 2) -> [Range<Int>] {
-        return stride(from: 1, to: count, by: size).map {
+        return stride(from: 0, to: count, by: size).map {
             $0..<$0 + size
         }
     }
@@ -74,16 +70,16 @@ struct CircularList<Content:View>: View {
         Circle()
         Circle()
         Circle()
-        
+////        
         Rectangle()
         Circle()
         Circle()
         Circle()
         Circle()
-        Circle()
-        Circle()
+//        Circle()
+//        Circle()
         
-        Circle()
-        Circle()
+//        Circle()
+//        Circle()
     }
 }

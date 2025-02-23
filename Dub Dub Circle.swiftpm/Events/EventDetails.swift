@@ -66,31 +66,34 @@ struct EventDetails: View {
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
             case .circular:
-                CircularList {
+                ZStack {
                     MyProfileCircle()
                         .glow()
+                        .frame(width: 150, height: 150)
                     
-                    ForEach(event.attendees, id: \.self) { attendee in
-                        AttendeeItem(attendee: attendee, namespace: namespace, viewStyle: .circular)
-                    }
-                    
-                    if event.attendees.count%7 != 0 || event.attendees.count == 0 {
-                        ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
-                            Button {
-                                showNewAttendeeView = true
-                            } label: {
-                                Circle()
-                                    .foregroundStyle(Color(uiColor: .systemGray5))
+                    CircularList {
+                        ForEach(event.attendees, id: \.self) { attendee in
+                            AttendeeItem(attendee: attendee, namespace: namespace, viewStyle: .circular)
+                        }
+                        
+                        if event.attendees.count%7 != 0 || event.attendees.count == 0 {
+                            ForEach((event.attendees.count%7)..<6, id: \.self) { _ in
+                                Button {
+                                    showNewAttendeeView = true
+                                } label: {
+                                    Circle()
+                                        .foregroundStyle(Color(uiColor: .systemGray5))
+                                }
                             }
                         }
-                    }
-                    
-                    Button {
-                        showNewAttendeeView = true
-                    } label: {
-                        Circle()
-                            .foregroundStyle(Color(uiColor: .systemGray5))
-                            .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
+                        
+                        Button {
+                            showNewAttendeeView = true
+                        } label: {
+                            Circle()
+                                .foregroundStyle(Color(uiColor: .systemGray5))
+                                .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
+                        }
                     }
                 }
                 .frame(maxHeight: 700)
