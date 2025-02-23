@@ -75,6 +75,7 @@ struct NewEventView: View {
                             modelContext.insert(event)
                         }
                         
+                        try? modelContext.save()
                         dismiss()
                     }
                 }
