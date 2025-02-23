@@ -26,7 +26,6 @@ struct JournalEntryListItem: View {
             if let contents = entry.contents?.asAttributedString {
                 Text(contents)
                     .font(.body)
-                    .lineLimit(1...5)
             }
             
             Divider()
