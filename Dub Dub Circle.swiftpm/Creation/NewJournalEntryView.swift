@@ -16,7 +16,7 @@ struct NewJournalEntryView: View {
     
     @State private var title: String = ""
     @State private var date = Date.now
-//    @State private var selectedContacts: [Contact] = []
+    @State private var selectedAttendees: Set<Contact> = []
     @State private var contents: NSAttributedString = NSAttributedString(string: "")
     
     @State private var textEditorPadding: CGFloat = 0
@@ -35,6 +35,7 @@ struct NewJournalEntryView: View {
         self._title = State(initialValue: journalEntry.title)
         self._date = State(initialValue: journalEntry.date)
         self._contents = State(initialValue: journalEntry.contents?.asNSAttributedString ?? NSAttributedString(string: ""))
+        self._selectedAttendees = State(initialValue: Set<Contact>(journalEntry.relatedAttendees))
     }
     
     
@@ -45,6 +46,29 @@ struct NewJournalEntryView: View {
                     .ignoresSafeArea()
                 
                 VStack {
+                    NavigationLink {
+                        AttendeePicker(selectedAttendees: $selectedAttendees, event: event)
+                    } label: {
+                        HStack {
+                            if selectedAttendees.isEmpty {
+                                Text("Selected Related Attendees")
+                            } else {
+                                AttendeeCircles(attendees: [Contact](selectedAttendees), maxCount: 5, height: 50, offset: 30, addPlaceholders: false)
+                                
+                                if selectedAttendees.count > 5 {
+                                    Text("and \(selectedAttendees.count - 5) more")
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding()
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
+                    }
+                    
                     TextField("Title", text: $title)
                         .bold()
                     
@@ -74,8 +98,9 @@ struct NewJournalEntryView: View {
                             existingEntry.title = title
                             existingEntry.contents = try? JournalContents(AttributedString(contents))
                             existingEntry.date = date
+                            existingEntry.relatedAttendees = [Contact](selectedAttendees)
                         } else {
-                            let newJournalEntry = JournalEntry(event: event, title: title, journalContents: AttributedString(contents), date: date)
+                            let newJournalEntry = JournalEntry(event: event, title: title, journalContents: AttributedString(contents), date: date, relatedAttendees: [Contact](selectedAttendees))
                             event.journalEntries.append(newJournalEntry)
                         }
                         try? modelContext.save()

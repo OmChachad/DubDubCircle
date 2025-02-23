@@ -18,6 +18,15 @@ struct JournalEntryListItem: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+            if !entry.relatedAttendees.isEmpty {
+                HStack {
+                    AttendeeCircles(attendees: entry.relatedAttendees, maxCount: 5, height: 50, offset: 30, addPlaceholders: false)
+                    
+                    if entry.relatedAttendees.count > 5 {
+                        Text("and \(entry.relatedAttendees.count - 5) more")
+                    }
+                }
+            }
             
             Text(entry.title)
                 .font(.title3)

@@ -17,21 +17,21 @@ class JournalEntry {
     
     var date: Date
     
-//    @Relationship var relatedContacts: [Contact]
+    @Relationship var relatedAttendees: [Contact]
     
-    init(event: DeveloperEvent, title: String, journalContents: AttributedString = AttributedString(""), date: Date) {
+    init(event: DeveloperEvent, title: String, journalContents: AttributedString = AttributedString(""), date: Date, relatedAttendees: [Contact] = []) {
         self.event = event
         self.title = title
         self.contents = try? JournalContents(journalContents)
         self.date = date
-//        self.relatedContacts = relatedContacts
+        self.relatedAttendees = relatedAttendees
     }
     
-    init(event: DeveloperEvent, title: String, journalContents: NSAttributedString = NSAttributedString(string: ""), date: Date) {
+    init(event: DeveloperEvent, title: String, journalContents: NSAttributedString = NSAttributedString(string: ""), date: Date, relatedAttendees: [Contact] = []) {
         self.event = event
         self.title = title
         self.contents = try? JournalContents(journalContents)
         self.date = date
-//        self.relatedContacts = relatedContacts
+        self.relatedAttendees = relatedAttendees
     }
 }
