@@ -21,6 +21,7 @@ struct EventDetails: View {
     @Namespace var namespace
     
     @State private var showMemoriesView = false
+    @State private var showJournalView = false
     
     var body: some View {
         NavigationStack {
@@ -147,7 +148,7 @@ struct EventDetails: View {
                 Spacer()
                 
                 Button {
-                    
+                    showJournalView = true
                 } label: {
                     Label("Journal", systemImage: "pencil.and.list.clipboard")
                         .foregroundStyle(.white)
@@ -157,6 +158,9 @@ struct EventDetails: View {
                         .background(Color.indigo.gradient, in: .circle)
                         .bold()
                         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
+                }
+                .sheet(isPresented: $showJournalView) {
+                    JournalView(event: event)
                 }
             }
             .padding()

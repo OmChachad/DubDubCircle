@@ -20,7 +20,7 @@ class DeveloperEvent {
     @Relationship(inverse: \Contact.events) var attendees: [Contact]
     
     @Attribute(.externalStorage) var memories: [Memory]
-    var journalEntries: [JournalEntry]
+    @Relationship(inverse: \JournalEntry.event) var journalEntries: [JournalEntry]
     
     init(title: String, attendees: [Contact] = [], memories: [Memory] = [], journalEntries: [JournalEntry] = [], date: Date, location: Location) {
         self.title = title
