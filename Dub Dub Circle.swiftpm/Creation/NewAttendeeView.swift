@@ -199,37 +199,3 @@ struct NewAttendeeView: View {
         NewAttendeeView(event: DeveloperEvent(title: "WWDC", date: Date(), wasOnline: true))
     }
 }
-
-
-//Model
-//class Contact {
-//    var id: UUID
-//    @Attribute(.externalStorage) var imageData: Data?
-//    var name: String
-//    var email: String?
-//    var phone: String?
-//    var notes: String
-//    @Attribute(.externalStorage) var businessCard: BusinessCard?
-//    var events: [DeveloperEvent]
-//    
-//    var profilePhoto: Image {
-//        if let data = imageData {
-//            if let uiImage = UIImage(data: data) {
-//                return Image(uiImage: uiImage)
-//            }
-//        }
-//        
-//        return Image(systemName: "person.circle")
-//    }
-//    
-//    init(id: UUID = UUID(), imageData: Data? = nil, name: String, email: String? = nil, phone: String? = nil, notes: String, businessCard: BusinessCard? = nil, events: [DeveloperEvent]) {
-//        self.id = id
-//        self.imageData = imageData
-//        self.name = name
-//        self.email = email
-//        self.phone = phone
-//        self.notes = notes
-//        self.businessCard = businessCard
-//        self.events = events
-//    }
-//}
