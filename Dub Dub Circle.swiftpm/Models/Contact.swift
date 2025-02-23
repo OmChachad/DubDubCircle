@@ -19,6 +19,7 @@ class Contact {
     var companyName: String?
     var city: String?
     @Attribute(.externalStorage) var businessCard: BusinessCard?
+    var isMyProfile = false
     var events: [DeveloperEvent]
     var developmentPlatforms: [Platform]
     var developmentFrameworks: [DevelopmentFramework]
@@ -106,10 +107,28 @@ class Contact {
         self.phone = phone
         self.notes = notes
         self.companyName = companyName
+        self.isMyProfile = false
         self.city = city
         self.businessCard = businessCard
         self.events = events
         self.developmentPlatforms = developmentPlatforms
         self.developmentFrameworks = developmentFrameworks
     }
+    
+    init(id: UUID = UUID(), isMyProfile: Bool, imageData: Data? = nil, name: String, email: String? = nil, phone: String? = nil, notes: String, companyName: String? = nil, city: String? = nil, businessCard: BusinessCard? = nil, developmentPlatforms: [Platform], developmentFrameworks: [DevelopmentFramework]) {
+        self.id = id
+        self.imageData = imageData
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.notes = notes
+        self.companyName = companyName
+        self.isMyProfile = isMyProfile
+        self.city = city
+        self.businessCard = businessCard
+        self.events = []
+        self.developmentPlatforms = developmentPlatforms
+        self.developmentFrameworks = developmentFrameworks
+    }
+
 }

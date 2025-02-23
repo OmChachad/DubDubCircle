@@ -12,7 +12,7 @@ struct NewAttendeeView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     
-    var event: DeveloperEvent
+    var event: DeveloperEvent?
     
     @State private var profilePhotoData: Data?
     @State var photoPickerItem: PhotosPickerItem? = nil
@@ -27,6 +27,26 @@ struct NewAttendeeView: View {
     
     @State private var developmentPlatforms: Set<Contact.Platform> = []
     @State private var developmentFrameworks: Set<Contact.DevelopmentFramework> = []
+    
+    init(event: DeveloperEvent) {
+        self.event = event
+    }
+    
+    var existingAttendee: Contact?
+    
+    init(editing existingAttendee: Contact) {
+        self.event = nil
+        self.existingAttendee = existingAttendee
+        
+        _profilePhotoData = State(initialValue: existingAttendee.imageData)
+        _name = State(initialValue: existingAttendee.name)
+        _email = State(initialValue: existingAttendee.email ?? "")
+        _phone = State(initialValue: existingAttendee.phone ?? "")
+        _notes = State(initialValue: existingAttendee.notes)
+        _businessCard = State(initialValue: existingAttendee.businessCard)
+        _developmentPlatforms = State(initialValue: Set(existingAttendee.developmentPlatforms))
+        _developmentFrameworks = State(initialValue: Set(existingAttendee.developmentFrameworks))
+    }
 
     var body: some View {
         NavigationStack {
@@ -135,7 +155,7 @@ struct NewAttendeeView: View {
                         .frame(height: 100)
                 }
             }
-            .navigationTitle("New Attendee")
+            .navigationTitle("\(existingAttendee == nil ? "New Attendee" : "Edit Profile")")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -146,9 +166,21 @@ struct NewAttendeeView: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
-                        event.attendees.append(newAttendee)
-                        modelContext.insert(newAttendee)
+                        if let existingAttendee {
+                            existingAttendee.imageData = profilePhotoData
+                            existingAttendee.name = name
+                            existingAttendee.email = email
+                            existingAttendee.phone = phone
+                            existingAttendee.notes = notes
+                            existingAttendee.businessCard = businessCard
+                            existingAttendee.developmentPlatforms = [Contact.Platform](developmentPlatforms)
+                            existingAttendee.developmentFrameworks = [Contact.DevelopmentFramework](developmentFrameworks)
+                        } else {
+                            let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
+                            event?.attendees.append(newAttendee)
+                        }
+                        
+                        try? modelContext.save()
                         dismiss()
                     }
                     .disabled(name.isEmpty)

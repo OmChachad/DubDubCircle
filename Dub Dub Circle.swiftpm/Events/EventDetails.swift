@@ -67,10 +67,7 @@ struct EventDetails: View {
                 .frame(maxHeight: .infinity, alignment: .top)
             case .circular:
                 CircularList {
-                    Image("Profile")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .clipShape(Circle())
+                    MyProfileCircle()
                         .glow()
                     
                     ForEach(event.attendees, id: \.self) { attendee in
