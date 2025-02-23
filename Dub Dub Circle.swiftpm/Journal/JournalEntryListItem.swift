@@ -14,6 +14,7 @@ struct JournalEntryListItem: View {
     var entry: JournalEntry
     
     @State private var showDeleteConfirmation = false
+    @State private var showEditSheet = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,7 +39,7 @@ struct JournalEntryListItem: View {
                 
                 Menu("Actions", systemImage: "ellipsis") {
                     Button("Edit", systemImage: "pencil") {
-                        
+                        showEditSheet = true
                     }
                     
                     Divider()
@@ -62,6 +63,9 @@ struct JournalEntryListItem: View {
             RoundedRectangle(cornerRadius: 15, style: .continuous)
                 .fill(Color(uiColor: .systemGray6))
                 .shadow(color: Color.black.opacity(0.2), radius: 5)
+        }
+        .sheet(isPresented: $showEditSheet) {
+            NewJournalEntryView(editing: entry)
         }
     }
 }

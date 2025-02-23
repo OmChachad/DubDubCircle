@@ -21,6 +21,23 @@ struct NewJournalEntryView: View {
     
     @State private var textEditorPadding: CGFloat = 0
     
+    var existingEntry: JournalEntry?
+    
+    init(event: DeveloperEvent) {
+        self.event = event
+        self.existingEntry = nil
+    }
+    
+    init(editing journalEntry: JournalEntry) {
+        self.event = journalEntry.event
+        self.existingEntry = journalEntry
+        
+        self._title = State(initialValue: journalEntry.title)
+        self._date = State(initialValue: journalEntry.date)
+        self._contents = State(initialValue: journalEntry.contents?.asNSAttributedString ?? NSAttributedString(string: ""))
+    }
+    
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -32,6 +49,7 @@ struct NewJournalEntryView: View {
                         .bold()
                     
                     Divider()
+                    
                     JournalTextEditor(text: $contents, sidePadding: $textEditorPadding)
                         .padding(-textEditorPadding)
                         .placeholder("Write your thoughts here... (Genmojis are supported!)", contents: contents.string)
@@ -52,8 +70,14 @@ struct NewJournalEntryView: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let newJournalEntry = JournalEntry(event: event, title: title, journalContents: AttributedString(contents), date: date)
-                        event.journalEntries.append(newJournalEntry)
+                        if let existingEntry = existingEntry {
+                            existingEntry.title = title
+                            existingEntry.contents = try? JournalContents(AttributedString(contents))
+                            existingEntry.date = date
+                        } else {
+                            let newJournalEntry = JournalEntry(event: event, title: title, journalContents: AttributedString(contents), date: date)
+                            event.journalEntries.append(newJournalEntry)
+                        }
                         try? modelContext.save()
                         
                         dismiss()
