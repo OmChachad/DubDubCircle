@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct EventListItem: View {
+    @Environment(\.modelContext) var modelContext
+    
     var event: DeveloperEvent
+    
+    @State private var showEditSheet = false
+    @State private var showDeleteConfirmation = false
     
     var body: some View {
         HStack {
@@ -33,6 +38,25 @@ struct EventListItem: View {
             }
             
             Spacer()
+        }
+        .swipeActions {
+            Button("Delete", systemImage: "trash") {
+                showDeleteConfirmation = true
+            }
+            .tint(.red)
+            
+            Button("Edit", systemImage: "pencil") {
+                showEditSheet = true
+            }
+        }
+        .sheet(isPresented: $showEditSheet) {
+            NewEventView(editing: event)
+        }
+        .alert("Are you sure you want to delete the \(event.title) event?", isPresented: $showDeleteConfirmation) {
+            Button("Delete", role: .destructive) {
+                modelContext.delete(event)
+                try? modelContext.save()
+            }
         }
     }
     

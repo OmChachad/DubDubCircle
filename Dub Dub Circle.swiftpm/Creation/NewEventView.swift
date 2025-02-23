@@ -20,6 +20,19 @@ struct NewEventView: View {
     @State private var showMapPicker = false
     @State private var location: Location = Location(name: "Apple Park", address: "One Apple Park", latitude: 37.3346, longitude: -122.0090)
     
+    var existingEvent: DeveloperEvent?
+    
+    init(editing existingEvent: DeveloperEvent? = nil) {
+        self.existingEvent = existingEvent
+        
+        if let event = existingEvent {
+            _title = State(initialValue: event.title)
+            _date = State(initialValue: event.date)
+            _wasOnline = State(initialValue: event.wasOnline)
+            _location = State(initialValue: event.location ?? Location(name: "Apple Park", address: "One Apple Park", latitude: 37.3346, longitude: -122.0090))
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -67,12 +80,19 @@ struct NewEventView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        if wasOnline {
-                            let event = DeveloperEvent(title: title, date: date, wasOnline: wasOnline)
-                            modelContext.insert(event)
+                        if let event = existingEvent {
+                            event.title = title
+                            event.date = date
+                            event.wasOnline = wasOnline
+                            event.location = location
                         } else {
-                            let event = DeveloperEvent(title: title, date: date, location: location)
-                            modelContext.insert(event)
+                            if wasOnline {
+                                let event = DeveloperEvent(title: title, date: date, wasOnline: wasOnline)
+                                modelContext.insert(event)
+                            } else {
+                                let event = DeveloperEvent(title: title, date: date, location: location)
+                                modelContext.insert(event)
+                            }
                         }
                         
                         try? modelContext.save()
