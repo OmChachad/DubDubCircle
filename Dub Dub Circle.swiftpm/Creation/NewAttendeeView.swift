@@ -28,24 +28,26 @@ struct NewAttendeeView: View {
     @State private var developmentPlatforms: Set<Contact.Platform> = []
     @State private var developmentFrameworks: Set<Contact.DevelopmentFramework> = []
     
+    @State private var existingAttendeePicker = false
+    
     init(event: DeveloperEvent) {
         self.event = event
     }
     
-    var existingAttendee: Contact?
+    var toBeEditedAttendee: Contact?
     
-    init(editing existingAttendee: Contact) {
+    init(editing toBeEditedAttendee: Contact) {
         self.event = nil
-        self.existingAttendee = existingAttendee
+        self.toBeEditedAttendee = toBeEditedAttendee
         
-        _profilePhotoData = State(initialValue: existingAttendee.imageData)
-        _name = State(initialValue: existingAttendee.name)
-        _email = State(initialValue: existingAttendee.email ?? "")
-        _phone = State(initialValue: existingAttendee.phone ?? "")
-        _notes = State(initialValue: existingAttendee.notes)
-        _businessCard = State(initialValue: existingAttendee.businessCard)
-        _developmentPlatforms = State(initialValue: Set(existingAttendee.developmentPlatforms))
-        _developmentFrameworks = State(initialValue: Set(existingAttendee.developmentFrameworks))
+        _profilePhotoData = State(initialValue: toBeEditedAttendee.imageData)
+        _name = State(initialValue: toBeEditedAttendee.name)
+        _email = State(initialValue: toBeEditedAttendee.email ?? "")
+        _phone = State(initialValue: toBeEditedAttendee.phone ?? "")
+        _notes = State(initialValue: toBeEditedAttendee.notes)
+        _businessCard = State(initialValue: toBeEditedAttendee.businessCard)
+        _developmentPlatforms = State(initialValue: Set(toBeEditedAttendee.developmentPlatforms))
+        _developmentFrameworks = State(initialValue: Set(toBeEditedAttendee.developmentFrameworks))
     }
 
     var body: some View {
@@ -155,7 +157,7 @@ struct NewAttendeeView: View {
                         .frame(height: 100)
                 }
             }
-            .navigationTitle("\(existingAttendee == nil ? "New Attendee" : "Edit Profile")")
+            .navigationTitle("\(toBeEditedAttendee == nil ? "New Attendee" : "Edit Profile")")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -164,26 +166,42 @@ struct NewAttendeeView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        if let existingAttendee {
-                            existingAttendee.imageData = profilePhotoData
-                            existingAttendee.name = name
-                            existingAttendee.email = email
-                            existingAttendee.phone = phone
-                            existingAttendee.notes = notes
-                            existingAttendee.businessCard = businessCard
-                            existingAttendee.developmentPlatforms = [Contact.Platform](developmentPlatforms)
-                            existingAttendee.developmentFrameworks = [Contact.DevelopmentFramework](developmentFrameworks)
-                        } else {
-                            let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
-                            event?.attendees.append(newAttendee)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack {
+                        if toBeEditedAttendee == nil, let event {
+                            Button("Pick Existing", systemImage: "person.crop.circle.badge.plus") {
+                                existingAttendeePicker = true
+                            }
+                            .sheet(isPresented: $existingAttendeePicker) {
+                                ExistingAttendeePicker(event: event) { attendee in
+                                    event.attendees.append(attendee)
+                                    try? modelContext.save()
+                                    existingAttendeePicker = false
+                                    dismiss()
+                                }
+                            }
                         }
                         
-                        try? modelContext.save()
-                        dismiss()
+                        Button("Save") {
+                            if let toBeEditedAttendee {
+                                toBeEditedAttendee.imageData = profilePhotoData
+                                toBeEditedAttendee.name = name
+                                toBeEditedAttendee.email = email
+                                toBeEditedAttendee.phone = phone
+                                toBeEditedAttendee.notes = notes
+                                toBeEditedAttendee.businessCard = businessCard
+                                toBeEditedAttendee.developmentPlatforms = [Contact.Platform](developmentPlatforms)
+                                toBeEditedAttendee.developmentFrameworks = [Contact.DevelopmentFramework](developmentFrameworks)
+                            } else {
+                                let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
+                                event?.attendees.append(newAttendee)
+                            }
+                            
+                            try? modelContext.save()
+                            dismiss()
+                        }
+                        .disabled(name.isEmpty)
                     }
-                    .disabled(name.isEmpty)
                 }
             }
         }
