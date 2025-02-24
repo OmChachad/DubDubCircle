@@ -44,7 +44,6 @@ struct AttendeeDetails: View {
                             developerDetails()
                         }
                     }
-                    .padding(.vertical, 10)
                 }
                 .padding(.top, 10)
             }
