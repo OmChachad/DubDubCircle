@@ -34,7 +34,7 @@ struct EventDetails: View {
                 .foregroundStyle(.secondary)
             
             if event.attendees.count > 0 {
-                Picker("", selection: $viewStyle.animation()) {
+                Picker("View Style", selection: $viewStyle.animation()) {
                     
                     Image(systemName: "circle.dotted")
                         .tag(ViewStyle.circular)
@@ -44,6 +44,7 @@ struct EventDetails: View {
                     
                 }
                 .pickerStyle(.segmented)
+                .labelsHidden()
                 .frame(width: 80)
             }
                 
