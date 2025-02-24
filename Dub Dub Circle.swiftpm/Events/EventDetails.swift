@@ -70,6 +70,7 @@ struct EventDetails: View {
                     MyProfileCircle()
                         .glow()
                         .frame(width: 150, height: 150)
+                        .zIndex(2)
                     
                     CircularList {
                         ForEach(event.attendees, id: \.self) { attendee in
