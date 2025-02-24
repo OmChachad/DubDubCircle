@@ -103,7 +103,11 @@ struct EventDetails: View {
             
             Spacer()
         }
-        
+        .onChange(of: event) {
+            if event.attendees.count == 0 {
+                viewStyle = .circular
+            }
+        }
         .overlay(alignment: .bottom) {
             HStack(alignment: .center) {
                 Button {
