@@ -247,6 +247,7 @@ struct Onboarding: View {
                 
                 Button {
                     dismiss()
+                    addSampleData()
                 } label: {
                     Text("Start Exploring")
                         .padding(.vertical, 10)
@@ -258,6 +259,121 @@ struct Onboarding: View {
                 Spacer()
                     .frame(height: 50)
             }
+        }
+        
+        
+        
+        func addSampleData() {
+            // WWDC25 at Apple Park
+            let appleParkLocation = Location(
+                name: "Apple Park",
+                address: "One Apple Park Way, Cupertino, CA 95014",
+                latitude: 37.3349,
+                longitude: -122.0090
+            )
+
+            // Sample attendees (Apple execs, engineers, and community figures)
+            let attendees: [Contact] = [
+                // https://asiaone.co.in/tim-cook/
+                Contact(imageData: UIImage(named: "Tim Cook")?.pngData() ?? Data(), name: "Tim Cook", email: "tim@apple.com", notes: "CEO of Apple. Had a brief conversation about the future of AI in iOS.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.mac, .iphone], developmentFrameworks: [.swiftUI]),
+
+                // https://in.pinterest.com/pin/craig-federighi--623818985915386694/
+                Contact(imageData: UIImage(named: "Craig Federighi")?.pngData() ?? Data(), name: "Craig Federighi", email: "craig@apple.com", notes: "Senior VP of Software Engineering. He cracked a joke about Xcode crashing mid-demo.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI, .uiKit]),
+
+                // https://www.livemint.com/mint-lounge/business-of-life/apple-greg-joswiak-generative-ai-vision-pro-interview-111709896148759.html
+                Contact(imageData: UIImage(named: "Greg Joswiak")?.pngData() ?? Data(), name: "Greg Joswiak", email: "joz@apple.com", notes: "Apple’s VP of Marketing. Shared insights on Apple's vision for developers.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
+
+                // https://app.boardroominsiders.com/skinny-profiles/apple-inc-susan-prescott
+                Contact(imageData: UIImage(named: "Susan Prescott")?.pngData() ?? Data(), name: "Susan Prescott", email: "susan@apple.com", notes: "VP of Developer Relations. Encouraged me to apply for an Apple Developer award.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.mac, .iphone], developmentFrameworks: [.swiftUI]),
+
+                // https://x.com/twostraws
+                Contact(imageData: UIImage(named: "Paul Hudson")?.pngData() ?? Data(), name: "Paul Hudson", email: "paul@hackingwithswift.com", notes: "Runs Hacking with Swift. Shared tips on SwiftData.", companyName: "Hacking with Swift", city: "London, UK", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
+
+                // https://x.com/jsngr
+                Contact(imageData: UIImage(named: "Jordan Singer")?.pngData() ?? Data(), name: "Jordan Singer", email: "singer@hey.com", notes: "Indie Dev, UI Designer. Working on an AI-powered SwiftUI design tool.", companyName: "iBuildMyIdeas", city: "Seattle, WA", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
+
+                // https://x.com/sdw
+                Contact(imageData: UIImage(named: "Sebastiaan de With")?.pngData() ?? Data(), name: "Sebastiaan de With", email: "seb@luxoptics.com", notes: "Designer of Halide app. Discussed camera APIs.", companyName: "Lux Optics", city: "San Francisco, CA", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
+
+                // https://mastodon.social/@stroughtonsmith/with_replies
+                Contact(imageData: UIImage(named: "Steve Troughton-Smith")?.pngData() ?? Data(), name: "Steve Troughton-Smith", email: "steve@highcaffeinecontent.com", notes: "iOS Dev & Reverse Engineer. Had great insights on Vision Pro development.", companyName: "High Caffeine Content", city: "Dublin, Ireland", events: [], developmentPlatforms: [.vision, .mac], developmentFrameworks: [.swiftUI, .other]),
+
+                // https://en.wikipedia.org/wiki/Lisa_P._Jackson
+                Contact(imageData: UIImage(named: "Lisa Jackson")?.pngData() ?? Data(), name: "Lisa Jackson", email: "lisa@apple.com", notes: "VP of Environment & Policy at Apple. Talked about sustainability in app development.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
+
+                // https://x.com/viticci
+                Contact(imageData: UIImage(named: "Federico Viticci")?.pngData() ?? Data(), name: "Federico Viticci", email: "federico@macstories.net", notes: "Founder of MacStories. Had a deep discussion on iPadOS and shortcuts.", companyName: "MacStories", city: "Rome, Italy", events: [], developmentPlatforms: [.ipad, .iphone], developmentFrameworks: [.swiftUI]),
+
+                // https://simonbs.dev
+                Contact(imageData: UIImage(named: "Simon Støvring")?.pngData() ?? Data(), name: "Simon Støvring", email: "simon@scriptable.app", notes: "Creator of Scriptable & DataJar. Discussed automation on iOS.", companyName: "Scriptable", city: "Copenhagen, Denmark", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI, .uiKit]),
+
+                // https://www.linkedin.com/in/christianselig/?originalSubdomain=ca
+                Contact(imageData: UIImage(named: "Christian Selig")?.pngData() ?? Data(), name: "Christian Selig", email: "chris@apolloapp.io", notes: "Built Apollo, the best Reddit client. Shared experiences on App Store policies.", companyName: "Apollo", city: "Toronto, Canada", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
+
+                // https://rryam.com/rudrank
+                Contact(imageData: UIImage(named: "Rudrank Riyam")?.pngData() ?? Data(), name: "Rudrank Riyam", email: "rudrank@swiftindie.com", notes: "Swift MusicKit expert. Gave me insights into building music-related apps.", city: "Gurugaon, Delhi", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
+
+                // https://www.linkedin.com/in/mufasayc/
+                Contact(imageData: UIImage(named: "Mustafa Yusuf")?.pngData() ?? Data(), name: "Mustafa Yusuf", email: "mustafa@msquarelabs.com", notes: "Vision Pro developer. Showed me an incredible SwiftData-driven project.", companyName: "Chirper", city: "Mumbai, India", events: [], developmentPlatforms: [.vision, .iphone], developmentFrameworks: [.swiftUI, .other])
+            ]
+
+            
+
+            // Sample photos (memories)
+            let memories: [Memory] = [
+                // Image source: https://www.indiatoday.in/technology/news/story/at-wwdc-22-apple-turns-its-senior-vp-craig-federighi-into-a-superhero-1959231-2022-06-07
+                Memory(imageData: UIImage(named: "Run")?.pngData() ?? Data(), date: Date(timeIntervalSince1970: 1750007200), description: "Craig federighi's epic run!"),
+                // Source: https://developer.apple.com/events/
+                Memory(imageData: UIImage(named: "Session")?.pngData() ?? Data(), date: Date(timeIntervalSince1970: 1750010800), description: "Developer Session"),
+                // Image source: https://wallpapers.com/wallpapers/apple-park-visitor-center-sunset-0zdbuytq2xfagvk9.html
+                Memory(imageData: UIImage(named: "Sunset")?.pngData() ?? Data(), date: Date(timeIntervalSince1970: 1750014400), description: "Apple Park Visitor Center at sunset.")
+            ]
+
+            // Create WWDC25 event
+            let wwdc25Event = DeveloperEvent(
+                title: "WWDC25",
+                attendees: attendees,
+                memories: memories,
+                journalEntries: [],
+                date: Date(timeIntervalSince1970: 1750000000),
+                location: appleParkLocation
+            )
+            
+            // Sample journal entries
+            let journalEntries: [JournalEntry] = [
+                JournalEntry(
+                    event: wwdc25Event,
+                    title: "Keynote Highlights",
+                    journalContents: AttributedString("Tim Cook started the keynote with an inspiring message about the developer community. Craig Federighi demoed iOS 19, and it was mind-blowing!"),
+                    date: Date(timeIntervalSince1970: 1750003600),
+                    relatedAttendees: [attendees[0], attendees[1]]
+                ),
+                JournalEntry(
+                    event: wwdc25Event,
+                    title: "Chat with Paul Hudson",
+                    journalContents: AttributedString("Met Paul Hudson at the SwiftUI lab. He gave me great advice on using SwiftData efficiently."),
+                    date: Date(timeIntervalSince1970: 1750007200),
+                    relatedAttendees: [attendees[4]]
+                ),
+                JournalEntry(
+                    event: wwdc25Event,
+                    title: "MusicKit Workshop with Rudrank Riyam",
+                    journalContents: AttributedString("Attended a fantastic MusicKit session with Rudrank. Learned how to build interactive Apple Music apps."),
+                    date: Date(timeIntervalSince1970: 1750010800),
+                    relatedAttendees: [attendees[12]]
+                ),
+                JournalEntry(
+                        event: wwdc25Event,
+                        title: "Sunset Walk at Apple Park",
+                        journalContents: AttributedString("After a packed day of sessions, I took a quiet stroll around Apple Park as the sun set. The campus is breathtaking at this hour—the glass walls glowing with golden light, the energy of developers still buzzing in the air. I met a few fellow indie devs, and we shared stories about our journeys into Swift development.  It’s moments like these that make WWDC so special—not just the announcements, but the connections."),
+                        date: Date(timeIntervalSince1970: 1750030000),
+                        relatedAttendees: []
+                    )
+            ]
+            
+            context.insert(wwdc25Event)
+            wwdc25Event.journalEntries = journalEntries
+            try? context.save()
         }
     }
     

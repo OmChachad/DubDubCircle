@@ -12,6 +12,7 @@ struct MyApp: App {
                 .sheet(isPresented: $firstLaunch) {
                     Onboarding()
                         .modelContainer(for: Contact.self)
+                        .modelContainer(for: DeveloperEvent.self)
                         .interactiveDismissDisabled()
                 }
         }
