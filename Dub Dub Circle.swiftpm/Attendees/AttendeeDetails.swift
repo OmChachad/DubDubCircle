@@ -70,8 +70,9 @@ struct AttendeeDetails: View {
                     Image(uiImage: UIImage(data: businessCard.imageData)!)
                         .resizable()
                         .scaledToFit()
-                        .scaledToFill()
+//                        .scaledToFill()
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .frame(maxWidth: .infinity, maxHeight: 400, alignment: .center)
                        
                     if let phoneNumber = businessCard.phone {
                         LabeledContent("Phone Number", value: phoneNumber)
