@@ -23,13 +23,6 @@ struct MyProfileCircle: View {
         } label: {
             profiles.first?.profilePhotoCircle
         }
-//        .onAppear {
-//            if profiles.isEmpty {
-//                let newProfile = Contact(isMyProfile: true, name: "Om", notes: "", developmentPlatforms: [.iphone], developmentFrameworks: [.swiftUI])
-//                context.insert(newProfile)
-//                try? context.save()
-//            }
-//        }
         .sheet(isPresented: $showingEditor) {
             NewAttendeeView(editing: profiles.first!)
         }

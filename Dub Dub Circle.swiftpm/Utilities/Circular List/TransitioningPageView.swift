@@ -11,9 +11,11 @@ struct TransitioningPageView<Content: View>: View {
     @ViewBuilder var content: Content
     @State private var index = 0
     
+    var rotationEnabled = true
+    
     var body: some View {
         Group(subviews: content) { collection in
-            PageHandler(collection: collection)
+            PageHandler(collection: collection, rotationEnabled: rotationEnabled)
         }
     }
     
@@ -22,14 +24,17 @@ struct TransitioningPageView<Content: View>: View {
         @State private var index = 0
         var maxIndex = 0
         
+        var rotationEnabled = true
+        
         @State private var offset: CGSize = .zero
         
         @Environment(\.colorScheme) var colorScheme
         
-        init(collection: SubviewsCollection, index: Int = 0, maxIndex: Int = 0) {
+        init(collection: SubviewsCollection, index: Int = 0, maxIndex: Int = 0, rotationEnabled: Bool = true) {
             self.collection = collection
             self.index = index
             self.maxIndex = collection.count - 1
+            self.rotationEnabled = rotationEnabled
         }
         
         @State private var rotation = 0
@@ -43,7 +48,7 @@ struct TransitioningPageView<Content: View>: View {
                 .contentShape(Rectangle())
                 .transition(.blurReplace)
                 .animation(.default, value: index)
-                .rotationEffect(.degrees(Double(rotation)))
+                .rotationEffect(.degrees(Double(rotationEnabled ? rotation : 0)))
                 .gesture (
                     DragGesture()
                         .onEnded { drag in
