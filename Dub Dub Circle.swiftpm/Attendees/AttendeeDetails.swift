@@ -53,6 +53,12 @@ struct AttendeeDetails: View {
             .frame(maxWidth: .infinity, alignment: .center)
             
             
+            TextEditorSection(title: "Notes", text: $attendeeNotes)
+                .onChange(of: attendeeNotes) {
+                    attendee.notes = attendeeNotes
+                }
+            
+            
             if !(attendee.phone ?? "").isEmpty || !(attendee.email ?? "").isEmpty {
                 Section("Contact") {
                     if let phoneNumber = attendee.phone {
@@ -91,11 +97,6 @@ struct AttendeeDetails: View {
                     }
                 }
             }
-            
-            TextEditorSection(title: "Notes", text: $attendeeNotes)
-                .onChange(of: attendeeNotes) {
-                    attendee.notes = attendeeNotes
-                }
         }
         .contentMargins(Edge.Set(arrayLiteral: .horizontal), 100, for: .scrollContent)
         .frame(maxWidth: .infinity, alignment: .center)
