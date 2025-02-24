@@ -107,6 +107,7 @@ struct NewJournalEntryView: View {
                         
                         dismiss()
                     }
+                    .disabled((title + contents.string).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .bold()
                 }
             }

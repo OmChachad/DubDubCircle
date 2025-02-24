@@ -98,6 +98,7 @@ struct NewEventView: View {
                         try? modelContext.save()
                         dismiss()
                     }
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
