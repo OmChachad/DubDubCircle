@@ -30,8 +30,13 @@ struct TextEditorSection: View {
                     .transition(.blurReplace)
                     .focused($textEditorIsFocused)
             } else {
-                Text(text)
-                    .transition(.blurReplace)
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Text("No notes...")
+                        .italic()
+                } else {
+                    Text(text)
+                        .transition(.blurReplace)
+                }
             }
         } header: {
             HStack {
