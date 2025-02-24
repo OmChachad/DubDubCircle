@@ -22,6 +22,8 @@ struct NewAttendeeView: View {
     @State private var email = ""
     @State private var phone = ""
     @State private var notes = ""
+    @State private var companyName = ""
+    @State private var city = ""
     
     @State private var businessCard: BusinessCard?
     
@@ -48,6 +50,8 @@ struct NewAttendeeView: View {
         _businessCard = State(initialValue: toBeEditedAttendee.businessCard)
         _developmentPlatforms = State(initialValue: Set(toBeEditedAttendee.developmentPlatforms))
         _developmentFrameworks = State(initialValue: Set(toBeEditedAttendee.developmentFrameworks))
+        _companyName = State(initialValue: toBeEditedAttendee.companyName ?? "")
+        _city = State(initialValue: toBeEditedAttendee.city ?? "")
     }
 
     var body: some View {
@@ -91,6 +95,14 @@ struct NewAttendeeView: View {
                 
                 Section {
                     TextField("Name", text: $name)
+                }
+                
+                Section {
+                    TextField("Company Name", text: $companyName)
+                }
+                
+                Section {
+                    TextField("City", text: $city)
                 }
                 
                 Section("Development Experience") {
@@ -192,8 +204,10 @@ struct NewAttendeeView: View {
                                 toBeEditedAttendee.businessCard = businessCard
                                 toBeEditedAttendee.developmentPlatforms = [Contact.Platform](developmentPlatforms)
                                 toBeEditedAttendee.developmentFrameworks = [Contact.DevelopmentFramework](developmentFrameworks)
+                                toBeEditedAttendee.companyName = companyName
+                                toBeEditedAttendee.city = city
                             } else {
-                                let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
+                                let newAttendee = Contact(imageData: profilePhotoData, name: name, email: email, phone: phone, notes: notes, companyName: companyName, city: city,  businessCard: businessCard, events: [], developmentPlatforms: [Contact.Platform](developmentPlatforms), developmentFrameworks: [Contact.DevelopmentFramework](developmentFrameworks))
                                 event?.attendees.append(newAttendee)
                             }
                             

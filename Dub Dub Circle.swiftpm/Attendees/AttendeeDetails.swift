@@ -51,6 +51,11 @@ struct AttendeeDetails: View {
             .listRowBackground(Color(uiColor: UIColor.systemGroupedBackground))
             .frame(maxWidth: .infinity, alignment: .center)
             
+            if !(attendee.companyName ?? "").isEmpty {
+                Section("Works at") {
+                    Label(attendee.companyName!, systemImage: "suitcase.fill")
+                }
+            }
             
             TextEditorSection(title: "Notes", text: $attendeeNotes)
                 .onChange(of: attendeeNotes) {
