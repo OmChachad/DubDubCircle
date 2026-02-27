@@ -301,42 +301,43 @@ struct Onboarding: View {
                 Contact(imageData: UIImage(named: "Craig Federighi")?.pngData() ?? Data(), name: "Craig Federighi", email: "craig@apple.com", notes: "Senior VP of Software Engineering. He cracked a joke about Xcode crashing mid-demo.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI, .uiKit]),
 
                 // https://www.livemint.com/mint-lounge/business-of-life/apple-greg-joswiak-generative-ai-vision-pro-interview-111709896148759.html
-                // https://app.boardroominsiders.com/skinny-profiles/apple-inc-susan-prescott
-                // https://x.com/twostraws
                 Contact(imageData: UIImage(named: "Greg Joswiak")?.pngData() ?? Data(), name: "Greg Joswiak", email: "joz@apple.com", notes: "VP of Marketing. Shared insights on Apple's vision for developers.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
                 
+                
+                // https://app.boardroominsiders.com/skinny-profiles/apple-inc-susan-prescott
                 Contact(imageData: UIImage(named: "Susan Prescott")?.pngData() ?? Data(), name: "Susan Prescott", email: "susan@apple.com", notes: "VP of Developer Relations. Encouraged me to apply for the Swift Student Challenge.", companyName: "Apple", city: "Cupertino, CA", events: [], developmentPlatforms: [.mac, .iphone], developmentFrameworks: [.swiftUI]),
                 
+                // https://x.com/twostraws
                 Contact(imageData: UIImage(named: "Paul Hudson")?.pngData() ?? Data(), name: "Paul Hudson", email: "paul@hackingwithswift.com", notes: "Runs Hacking with Swift. Shared tips on SwiftData.", companyName: "Hacking with Swift", city: "London, UK", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
-                // https://x.com/jsngr
-                // https://x.com/sdw
-                // https://mastodon.social/@stroughtonsmith/with_replies
                 
+                // https://x.com/jsngr
                 Contact(imageData: UIImage(named: "Jordan Singer")?.pngData() ?? Data(), name: "Jordan Singer", email: "singer@hey.com", notes: "Indie Dev & UI Designer. Working on an AI-powered SwiftUI design tool.", companyName: "iBuildMyIdeas", city: "Seattle, WA", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
                 
+                // https://x.com/sdw
                 Contact(imageData: UIImage(named: "Sebastiaan de With")?.pngData() ?? Data(), name: "Sebastiaan de With", email: "seb@luxoptics.com", notes: "Designer of Halide. Discussed camera APIs.", companyName: "Lux Optics", city: "San Francisco, CA", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI]),
                 
+                // https://mastodon.social/@stroughtonsmith/with_replies
                 Contact(imageData: UIImage(named: "Steve Troughton-Smith")?.pngData() ?? Data(), name: "Steve Troughton-Smith", email: "steve@highcaffeinecontent.com", notes: "iOS Dev & Reverse Engineer. Had great insights on Vision Pro development.", companyName: "High Caffeine Content", city: "Dublin, Ireland", events: [], developmentPlatforms: [.vision, .mac], developmentFrameworks: [.swiftUI, .other]),
-                // https://x.com/viticci
-                // https://simonbs.dev
-                // https://www.linkedin.com/in/christianselig/?originalSubdomain=ca
-                // https://rryam.com/rudrank
-                // https://www.linkedin.com/in/mufasayc/
                 
+                // https://x.com/viticci
                 Contact(imageData: UIImage(named: "Federico Viticci")?.pngData() ?? Data(), name: "Federico Viticci", email: "federico@macstories.net", notes: "Founder of MacStories. Deep discussion on iPadOS & Shortcuts.", companyName: "MacStories", city: "Rome, Italy", events: [], developmentPlatforms: [.ipad, .iphone], developmentFrameworks: [.swiftUI]),
                 
+                
+                // https://simonbs.dev
                 Contact(imageData: UIImage(named: "Simon Støvring")?.pngData() ?? Data(), name: "Simon Støvring", email: "simon@scriptable.app", notes: "Creator of Scriptable & DataJar. Discussed automation.", companyName: "Scriptable", city: "Copenhagen, Denmark", events: [], developmentPlatforms: [.iphone, .ipad], developmentFrameworks: [.swiftUI, .uiKit]),
                 
+                
+                // https://www.linkedin.com/in/christianselig/?originalSubdomain=ca
                 Contact(imageData: UIImage(named: "Christian Selig")?.pngData() ?? Data(), name: "Christian Selig", email: "chris@apolloapp.io", notes: "Built Apollo. Shared experiences on App Store policies.", companyName: "Apollo", city: "Toronto, Canada", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
                 
+                // https://rryam.com/rudrank
                 Contact(imageData: UIImage(named: "Rudrank Riyam")?.pngData() ?? Data(), name: "Rudrank Riyam", email: "rudrank@swiftindie.com", notes: "Swift MusicKit expert. Discussed building music apps.", city: "Gurugram, India", events: [], developmentPlatforms: [.iphone, .mac], developmentFrameworks: [.swiftUI]),
                 
+                // https://www.linkedin.com/in/mufasayc/
                 Contact(imageData: UIImage(named: "Mustafa Yusuf")?.pngData() ?? Data(), name: "Mustafa Yusuf", email: "mustafa@msquarelabs.com", notes: "Vision Pro developer. Showed an incredible SwiftData project.", companyName: "Chirper", city: "Mumbai, India", events: [], developmentPlatforms: [.vision, .iphone], developmentFrameworks: [.swiftUI, .other])
             ]
             
-                // Image source: https://www.indiatoday.in/technology/news/story/at-wwdc-22-apple-turns-its-senior-vp-craig-federighi-into-a-superhero-1959231-2022-06-07
-                // Source: https://developer.apple.com/events/
-                // Image source: https://wallpapers.com/wallpapers/apple-park-visitor-center-sunset-0zdbuytq2xfagvk9.html
+        
             // MARK: - Event
             
             let wwdc26Event = DeveloperEvent(
@@ -351,8 +352,15 @@ struct Onboarding: View {
             // MARK: - Memories
             
             wwdc26Event.memories = [
+                
+                // Image source: https://www.indiatoday
+                // Source: https://developer.apple.com/events/
                 Memory(imageData: UIImage(named: "Run")?.pngData() ?? Data(), date: makeDate(year: 2026, month: 6, day: 8, hour: 10), description: "Craig Federighi’s epic keynote run."),
+                
+                // Source: https://developer.apple.com/events/
                 Memory(imageData: UIImage(named: "Session")?.pngData() ?? Data(), date: makeDate(year: 2026, month: 6, day: 8, hour: 14), description: "Developer Session."),
+                
+                // Image source: https://wallpapers.com/wallpapers/apple-park-visitor-center-sunset-0zdbuytq2xfagvk9.html
                 Memory(imageData: UIImage(named: "Sunset")?.pngData() ?? Data(), date: makeDate(year: 2026, month: 6, day: 8, hour: 19), description: "Apple Park Visitor Center at sunset.")
             ]
             
