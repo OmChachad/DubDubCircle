@@ -160,8 +160,12 @@ struct NewAttendeeView: View {
                         .keyboardType(.phonePad)
                 }
                 
-                Section("Business Card") {
+                Section {
                     BusinessCardPicker(card: $businessCard)
+                } header: {
+                    Text("Business Card")
+                } footer: {
+                    Text("Powered by VisionKit")
                 }
                 
                 Section("Notes") {
