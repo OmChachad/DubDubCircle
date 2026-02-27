@@ -79,10 +79,13 @@ struct ContentView: View {
                         .font(.title3.bold())
                         .foregroundColor(.white)
                         .padding()
-                        .background(Color.accentColor)
-                        .clipShape(Circle())
+//                        .background(Color.accentColor)
+//                        .clipShape(Circle())
                         .glow()
                 }
+                .buttonStyle(.glassProminent)
+                .buttonBorderShape(.circle)
+                .tint(Color.accentColor)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background {
                     Rectangle()

@@ -128,10 +128,12 @@ struct EventDetails: View {
                         .font(.title)
                         .labelStyle(.iconOnly)
                         .frame(width: 65, height: 65)
-                        .background(Color.white, in: .circle)
+//                        .background(Color.white, in: .circle)
                         .bold()
-                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 }
+                .buttonBorderShape(.circle)
+                .buttonStyle(.glassProminent)
+                .tint(.white)
                 .sheet(isPresented: $showMemoriesView) {
                     MemoriesView(event: event)
                 }
@@ -145,10 +147,10 @@ struct EventDetails: View {
                         Label("Add Attendee", systemImage: "person.fill.badge.plus")
                             .foregroundStyle(.white)
                             .padding(10)
-                            .background(Color.accentColor.gradient, in: .rect(cornerRadius: 12.5, style: .continuous))
                             .bold()
-                            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                     }
+                    .buttonStyle(.glassProminent)
+                    .tint(Color.accentColor.gradient)
                 }
                 
                 Spacer()
@@ -161,10 +163,12 @@ struct EventDetails: View {
                         .font(.title)
                         .labelStyle(.iconOnly)
                         .frame(width: 65, height: 65)
-                        .background(Color.indigo.gradient, in: .circle)
                         .bold()
-                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
                 }
+                .buttonBorderShape(.circle)
+                .buttonStyle(.glassProminent)
+                .tint(Color.indigo.gradient)
+//                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
                 .sheet(isPresented: $showJournalView) {
                     JournalView(event: event)
                 }

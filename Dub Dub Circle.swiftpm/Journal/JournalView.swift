@@ -43,11 +43,12 @@ struct JournalView: View {
                         Label("Add", systemImage: "plus")
                             .labelStyle(.iconOnly)
                             .bold()
-                            .tint(.indigo)
+                            .foregroundStyle(.indigo)
                             .padding()
-                            .background(.invertedPrimary, in: .circle)
                     }
-                    .shadow(radius: 5)
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .tint(.invertedPrimary)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background {
