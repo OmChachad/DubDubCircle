@@ -65,12 +65,6 @@ struct ContentView: View {
             }
             .navigationTitle("Dub Dub Circle")
             .animation(.default, value: events.count)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    MyProfileCircle()
-                        .frame(width: 40, height: 40)
-                }
-            }
             .safeAreaInset(edge: .bottom) {
                 Button {
                     showEventCreationSheet = true
