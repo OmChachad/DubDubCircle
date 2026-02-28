@@ -4,8 +4,6 @@ import SwiftData
 struct ContentView: View {
     @Query(sort: \DeveloperEvent.date, order: .reverse, animation: .default) var events: [DeveloperEvent]
     
-    @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
-    
     @State private var showEventCreationSheet = false
     
     var groupedEvents: [(key: String, value: [DeveloperEvent])] {
@@ -36,69 +34,79 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            Group {
-                if events.isEmpty {
-                    ContentUnavailableView("Your circle looks uneventful.", systemImage: "circle.dotted.circle", description: Text("Click \(Image(systemName: "plus.circle.fill")) to add your first event."))
-                        .frame(maxHeight: .infinity)
-                } else {
-                    List {
-                        ForEach(groupedEvents, id: \.key) { section in
-                            Section(header:
-                                Text(section.key)
-                                    .textCase(.none)
-                                    .font(.headline)
-                                    .fontWidth(.expanded)
-                            ) {
-                                ForEach(section.value) { event in
-                                    NavigationLink {
-                                        EventDetails(event: event)
-                                    } label: {
-                                        EventListItem(event: event)
-                                    }
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            NavigationSplitView {
+                sidebar
+            } detail: {
+                ContentUnavailableView("No event circle selected.", systemImage: "person.2.slash.fill")
+            }
+        } else {
+            NavigationStack {
+                sidebar
+            }
+        }
+
+    }
+    
+    var sidebar: some View {
+        Group {
+            if events.isEmpty {
+                ContentUnavailableView("Your circle looks uneventful.", systemImage: "circle.dotted.circle", description: Text("Click \(Image(systemName: "plus.circle.fill")) to add your first event."))
+                    .frame(maxHeight: .infinity)
+            } else {
+                List {
+                    ForEach(groupedEvents, id: \.key) { section in
+                        Section(header:
+                            Text(section.key)
+                                .textCase(.none)
+                                .font(.headline)
+                                .fontWidth(.expanded)
+                        ) {
+                            ForEach(section.value) { event in
+                                NavigationLink {
+                                    EventDetails(event: event)
+                                } label: {
+                                    EventListItem(event: event)
                                 }
                             }
                         }
                     }
-                    .listStyle(InsetGroupedListStyle())
                 }
+                .listStyle(InsetGroupedListStyle())
             }
-            .navigationTitle("Dub Dub Circle")
-            .animation(.default, value: events.count)
-            .safeAreaInset(edge: .bottom) {
-                Button {
-                    showEventCreationSheet = true
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.title3.bold())
-                        .foregroundColor(.white)
-                        .padding()
+        }
+        .navigationTitle("Dub Dub Circle")
+        .animation(.default, value: events.count)
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                showEventCreationSheet = true
+            } label: {
+                Image(systemName: "plus")
+                    .font(.title3.bold())
+                    .foregroundColor(.white)
+                    .padding()
 //                        .background(Color.accentColor)
 //                        .clipShape(Circle())
-                        .glow()
-                }
-                .buttonStyle(.glassProminent)
-                .buttonBorderShape(.circle)
-                .tint(Color.accentColor)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .background {
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                        .mask {
-                            Rectangle()
-                                .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
-                        }
-                        .frame(height: 120)
-                        .frame(maxWidth: .infinity)
-                        .ignoresSafeArea()
-                }
+                    .glow()
             }
-            .sheet(isPresented: $showEventCreationSheet) {
-                NewEventView()
+            .buttonStyle(.glassProminent)
+            .buttonBorderShape(.circle)
+            .tint(Color.accentColor)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .background {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .mask {
+                        Rectangle()
+                            .fill(LinearGradient(colors: [.clear, .white, .white, .white, .white], startPoint: .top, endPoint: .bottom))
+                    }
+                    .frame(height: 120)
+                    .frame(maxWidth: .infinity)
+                    .ignoresSafeArea()
             }
-        } detail: {
-            ContentUnavailableView("No event circle selected.", systemImage: "person.2.slash.fill")
         }
-
+        .sheet(isPresented: $showEventCreationSheet) {
+            NewEventView()
+        }
     }
 }
