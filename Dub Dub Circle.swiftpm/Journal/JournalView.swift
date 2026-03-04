@@ -17,11 +17,14 @@ struct JournalView: View {
             ZStack {
                 LinearGradient(colors: [.invertedPrimary, .invertedPrimary, .indigo.opacity(0.15)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
+                    .accessibilityHidden(true)
                 
                 Group {
                     if event.journalEntries.isEmpty {
                         ContentUnavailableView("No journal entries—yet!", systemImage: "book.pages.fill")
                             .offset(y: -50)
+                            .accessibilityLabel("No journal entries")
+                            .accessibilityHint("Tap the add button to create your first journal entry")
                     } else {
                         ScrollView {
                             LazyVStack(spacing: 20) {
@@ -34,6 +37,8 @@ struct JournalView: View {
                         .contentMargins(20, for: .scrollContent)
                         .safeAreaPadding(.bottom, 100)
                         .animation(.default, value: event.journalEntries.count)
+                        .accessibilityLabel("Journal entries")
+                        .accessibilityValue("\(event.journalEntries.count) \(event.journalEntries.count == 1 ? "entry" : "entries")")
                     }
                 }
                 .overlay(alignment: .bottom) {
@@ -51,6 +56,8 @@ struct JournalView: View {
                     .tint(.invertedPrimary)
                     .padding()
                     .frame(maxWidth: .infinity)
+                    .accessibilityLabel("Add journal entry")
+                    .accessibilityHint("Double tap to create a new journal entry")
                     .background {
                         Rectangle()
                             .fill(.indigo.opacity(0.15))
@@ -61,6 +68,7 @@ struct JournalView: View {
                             }
                             .frame(height: 120)
                             .ignoresSafeArea()
+                            .accessibilityHidden(true)
                     }
                 }
             }

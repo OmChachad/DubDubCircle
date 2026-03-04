@@ -38,7 +38,11 @@ struct NewEventView: View {
             Form {
                 Section {
                     TextField("Title", text: $title)
+                        .accessibilityLabel("Event title field")
+                        .accessibilityHint("Enter the event name")
                     DatePicker("Date", selection: $date)
+                        .accessibilityLabel("Event date")
+                        .accessibilityHint("Select the event date")
                 }
                 
                 Section("Location") {
@@ -50,6 +54,8 @@ struct NewEventView: View {
                             .allowsHitTesting(false)
                             .frame(height: 200)
                             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .accessibilityLabel("Map showing \(location.name)")
+                            .accessibilityHint("Event location preview")
                         }
                         
                         HStack {
@@ -59,6 +65,7 @@ struct NewEventView: View {
                                 Image(systemName: "mappin.and.ellipse")
                                     .foregroundStyle(.blue)
                             }
+                            .accessibilityLabel("Location: \(location.name)")
                             
                             Spacer()
                             
@@ -66,6 +73,8 @@ struct NewEventView: View {
                                 showMapPicker = true
                             }
                             .labelStyle(.iconOnly)
+                            .accessibilityLabel("Change location")
+                            .accessibilityHint("Double tap to select a different location")
                         }
                         .sheet(isPresented: $showMapPicker) {
                             MapPicker(location: $location)
@@ -73,6 +82,9 @@ struct NewEventView: View {
                     }
                     
                     Toggle("Online Event", isOn: $wasOnline)
+                        .accessibilityLabel("Online event toggle")
+                        .accessibilityValue(wasOnline ? "On, event is online" : "Off, event has a physical location")
+                        .accessibilityHint("Toggle whether this event is online or in-person")
                 }
             }
             .navigationTitle(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "New Event" : title)
@@ -99,10 +111,14 @@ struct NewEventView: View {
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .accessibilityLabel("Save event")
+                    .accessibilityHint("Save event information and close")
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", action: dismiss.callAsFunction)
+                        .accessibilityLabel("Cancel")
+                        .accessibilityHint("Discard changes and close")
                 }
             }
         }
@@ -120,13 +136,4 @@ struct NewEventView: View {
         )
     }
 
-}
-
-#Preview {
-    VStack {
-        
-    }
-    .sheet(isPresented: .constant(true)) {
-        NewEventView()
-    }
 }

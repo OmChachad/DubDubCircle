@@ -50,33 +50,47 @@ struct MemoriesItem: View {
                             .background(.black.opacity(0.7), in: Circle())
                             .padding(10)
                     }
+                    .accessibilityLabel("View full screen")
+                    .accessibilityHint("Double tap to view this memory in full screen")
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Memory photo\(memory.description.isEmpty ? "" : ": \(memory.description)")")
+                .accessibilityAddTraits(.isImage)
             
             Text(memory.date.formatted(date: .abbreviated, time: .shortened))
                 .bold()
                 .padding(.top, 10)
+                .accessibilityLabel("Taken on \(memory.date.formatted(date: .long, time: .shortened))")
             
             HStack {
                 if isEditingDescription {
                     Button("Done", action: save)
+                        .accessibilityLabel("Done editing")
+                        .accessibilityHint("Save description changes")
                     
                     TextField("Description", text: $description, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocused)
                         .onSubmit(save)
+                        .accessibilityLabel("Description field")
+                        .accessibilityHint("Enter a description for this memory")
                 } else {
                     Button("Edit", systemImage: "pencil") {
                         isEditingDescription = true
                     }
                     .labelStyle(.iconOnly)
                     .contentShape(Rectangle())
+                    .accessibilityLabel("Edit description")
+                    .accessibilityHint("Double tap to edit the photo description")
                     
                     if memory.description.isEmpty {
                         Text("No Description")
                             .foregroundColor(.secondary)
+                            .accessibilityLabel("No description")
                     } else {
                         Text(memory.description)
                             .foregroundColor(.secondary)
+                            .accessibilityLabel("Description: \(memory.description)")
                     }
                 }
             }
@@ -95,6 +109,8 @@ struct MemoriesItem: View {
                         .padding(10)
                         .background(.blue.opacity(0.2), in: Circle())
                 }
+                .accessibilityLabel("Share memory")
+                .accessibilityHint("Double tap to share this photo")
                 
                 Button {
                     showDeleteConfirmation = true
@@ -105,6 +121,8 @@ struct MemoriesItem: View {
                         .padding(10)
                         .background(.red.opacity(0.2), in: Circle())
                 }
+                .accessibilityLabel("Delete memory")
+                .accessibilityHint("Double tap to delete this photo")
                 .alert("Delete Memory", isPresented: $showDeleteConfirmation) {
                     Button("Delete", role: .destructive) {
                         withAnimation {
@@ -133,11 +151,15 @@ struct MemoriesItem: View {
                 memory.image
                     .resizable()
                     .scaledToFit()
+                    .accessibilityLabel("Full screen memory photo\(memory.description.isEmpty ? "" : ": \(memory.description)")")
+                    .accessibilityAddTraits(.isImage)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Close") {
                                 showFullScreenPreview = false
                             }
+                            .accessibilityLabel("Close")
+                            .accessibilityHint("Exit full screen view")
                         }
                     }
             }

@@ -48,6 +48,7 @@ struct Onboarding: View {
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
                     .fontWidth(.expanded)
+                    .accessibilityAddTraits(.isHeader)
                 
                 Spacer()
                 
@@ -59,11 +60,13 @@ struct Onboarding: View {
                             .frame(width: 200, height: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 200*2/9, style: .continuous))
                             .glow()
+                            .accessibilityLabel("Dub Dub Circle app icon")
                         
                         Spacer()
                         
                         Text("The best way to remember your favorite prople and memories from developer events.")
                             .multilineTextAlignment(.center)
+                            .accessibilityLabel("The best way to remember your favorite people and memories from developer events.")
                         
                         Spacer()
                     }
@@ -71,6 +74,7 @@ struct Onboarding: View {
                 }
             }
             .padding()
+            .accessibilityElement(children: .contain)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     withAnimation(.easeInOut(duration: 1.5)) {

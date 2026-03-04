@@ -26,11 +26,14 @@ struct JournalEntryListItem: View {
                         Text("and \(entry.relatedAttendees.count - 5) more")
                     }
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Related attendees: \(entry.relatedAttendees.prefix(5).map { $0.name }.joined(separator: ", "))\(entry.relatedAttendees.count > 5 ? " and \(entry.relatedAttendees.count - 5) more" : "")")
             }
             
             Text(entry.title)
                 .font(.title3)
                 .bold()
+                .accessibilityAddTraits(.isHeader)
             
             if let contents = entry.contents?.asAttributedString {
                 Text(contents)
@@ -42,6 +45,7 @@ struct JournalEntryListItem: View {
             HStack {
                 Text(entry.date, style: .date)
                     .foregroundColor(.secondary)
+                    .accessibilityLabel("Date: \(entry.date.formatted(date: .long, time: .omitted))")
                 
                 Spacer()
                 
@@ -49,14 +53,20 @@ struct JournalEntryListItem: View {
                     Button("Edit", systemImage: "pencil") {
                         showEditSheet = true
                     }
+                    .accessibilityLabel("Edit entry")
+                    .accessibilityHint("Double tap to edit this journal entry")
                     
                     Divider()
                     
                     Button("Delete", systemImage: "trash", role: .destructive) {
                         showDeleteConfirmation = true
                     }
+                    .accessibilityLabel("Delete entry")
+                    .accessibilityHint("Double tap to delete this journal entry")
                 }
                 .labelStyle(.iconOnly)
+                .accessibilityLabel("Entry actions")
+                .accessibilityHint("Double tap to edit or delete this entry")
                 .alert("Are you sure you want to delete this journal entry?", isPresented: $showDeleteConfirmation) {
                     Button("Delete", role: .destructive) {
                         modelContext.delete(entry)
@@ -72,6 +82,8 @@ struct JournalEntryListItem: View {
                 .fill(Color(uiColor: .systemGray6))
                 .shadow(color: Color.black.opacity(0.2), radius: 5)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Journal entry: \(entry.title)")
         .sheet(isPresented: $showEditSheet) {
             NewJournalEntryView(editing: entry)
         }

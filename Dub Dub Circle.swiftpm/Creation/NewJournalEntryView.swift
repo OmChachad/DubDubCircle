@@ -44,6 +44,7 @@ struct NewJournalEntryView: View {
             ZStack {
                 LinearGradient(colors: [.clear, .clear, .indigo.opacity(0.15)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
+                    .accessibilityHidden(true)
                 
                 VStack {
                     NavigationLink {
@@ -68,15 +69,22 @@ struct NewJournalEntryView: View {
                         .padding()
                         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(selectedAttendees.isEmpty ? "No attendees selected" : "Selected attendees: \(selectedAttendees.prefix(5).map { $0.name }.joined(separator: ", "))\(selectedAttendees.count > 5 ? " and \(selectedAttendees.count - 5) more" : "")")
+                    .accessibilityHint("Double tap to select related attendees")
                     
                     TextField("Title", text: $title)
                         .bold()
+                        .accessibilityLabel("Journal entry title")
+                        .accessibilityHint("Enter a title for this journal entry")
                     
                     Divider()
                     
                     JournalTextEditor(text: $contents, sidePadding: $textEditorPadding)
                         .padding(-textEditorPadding)
                         .placeholder("Write your thoughts here... (Genmojis are supported!)", contents: contents.string)
+                        .accessibilityLabel("Journal entry content")
+                        .accessibilityHint("Write your journal entry here")
                 }
                 .padding(.horizontal)
                 
@@ -84,12 +92,16 @@ struct NewJournalEntryView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", action: dismiss.callAsFunction)
+                        .accessibilityLabel("Cancel")
+                        .accessibilityHint("Discard changes and close")
                 }
                 
                 ToolbarItem(placement: .principal) {
                     DatePicker("Date", selection: $date)
                         .datePickerStyle(.compact)
                         .labelsHidden()
+                        .accessibilityLabel("Entry date")
+                        .accessibilityHint("Select the date for this journal entry")
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
@@ -109,6 +121,8 @@ struct NewJournalEntryView: View {
                     }
                     .disabled((title + contents.string).trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .bold()
+                    .accessibilityLabel("Save journal entry")
+                    .accessibilityHint("Save journal entry and close")
                 }
             }
         }

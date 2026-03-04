@@ -53,6 +53,9 @@ struct ContentView: View {
             if events.isEmpty {
                 ContentUnavailableView("Your circle looks uneventful.", systemImage: "circle.dotted.circle", description: Text("Click \(Image(systemName: "plus.circle.fill")) to add your first event."))
                     .frame(maxHeight: .infinity)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("No events")
+                    .accessibilityHint("Tap the add button to create your first event")
             } else {
                 List {
                     ForEach(groupedEvents, id: \.key) { section in
@@ -61,6 +64,7 @@ struct ContentView: View {
                                 .textCase(.none)
                                 .font(.headline)
                                 .fontWidth(.expanded)
+                                .accessibilityAddTraits(.isHeader)
                         ) {
                             ForEach(section.value) { event in
                                 NavigationLink {
@@ -68,11 +72,17 @@ struct ContentView: View {
                                 } label: {
                                     EventListItem(event: event)
                                 }
+                                .accessibilityElement(children: .combine)
+                                .accessibilityLabel("\(event.title) event")
+                                .accessibilityValue("at \(event.location?.name ?? "Online"), \(event.date.formatted(date: .long, time: .omitted)), with \(event.attendees.count) \(event.attendees.count == 1 ? "attendee" : "attendees")")
+                                .accessibilityHint("Double tap to view event details")
                             }
                         }
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel("Events list")
             }
         }
         .navigationTitle("Dub Dub Circle")
@@ -93,6 +103,9 @@ struct ContentView: View {
             .buttonBorderShape(.circle)
             .tint(Color.accentColor)
             .frame(maxWidth: .infinity, alignment: .center)
+            .accessibilityLabel("Add new event")
+            .accessibilityHint("Double tap to create a new event")
+            .accessibilityAddTraits(.isButton)
             .background {
                 Rectangle()
                     .fill(.ultraThinMaterial)
@@ -103,6 +116,7 @@ struct ContentView: View {
                     .frame(height: 120)
                     .frame(maxWidth: .infinity)
                     .ignoresSafeArea()
+                    .accessibilityHidden(true)
             }
         }
         .sheet(isPresented: $showEventCreationSheet) {

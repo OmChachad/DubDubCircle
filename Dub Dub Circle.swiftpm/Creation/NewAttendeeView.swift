@@ -66,6 +66,8 @@ struct NewAttendeeView: View {
                              .frame(width: 150, height: 175)
                              .clipShape(Circle())
                              .glow()
+                             .accessibilityLabel("Profile photo")
+                             .accessibilityHint("Tap to change photo")
                     } else {
                         Image(systemName: "person.fill.badge.plus")
                             .resizable()
@@ -75,6 +77,8 @@ struct NewAttendeeView: View {
                             .padding(30)
                             .frame(width: 150, height: 150)
                             .background(Color(.systemGray5), in: .circle)
+                            .accessibilityLabel("No profile photo")
+                            .accessibilityHint("Tap to add a photo")
                     }
                 }
                 .padding(5)
@@ -92,17 +96,24 @@ struct NewAttendeeView: View {
                         }
                     }
                 }
+                .accessibilityAddTraits(.isButton)
                 
                 Section {
                     TextField("Name", text: $name)
+                        .accessibilityLabel("Name field")
+                        .accessibilityHint("Enter the person's name")
                 }
                 
                 Section {
                     TextField("Company Name", text: $companyName)
+                        .accessibilityLabel("Company name field")
+                        .accessibilityHint("Enter the company name")
                 }
                 
                 Section {
                     TextField("City", text: $city)
+                        .accessibilityLabel("City field")
+                        .accessibilityHint("Enter the city")
                 }
                 
                 Section("Development Experience") {
@@ -126,8 +137,14 @@ struct NewAttendeeView: View {
                                         }
                                     }
                                 }
+                                .accessibilityElement()
+                                .accessibilityLabel("\(platform.title)")
+                                .accessibilityValue(developmentPlatforms.contains(platform) ? "Selected" : "Not selected")
+                                .accessibilityHint("Double tap to \(developmentPlatforms.contains(platform) ? "deselect" : "select") \(platform.title)")
+                                .accessibilityAddTraits(.isButton)
                         }
                     }
+                    .accessibilityElement(children: .contain)
                     
                     HStack {
                         Text("Framework Experience")
@@ -149,15 +166,25 @@ struct NewAttendeeView: View {
                                     }
                                 }
                                 .padding(.leading, 10)
+                                .accessibilityElement()
+                                .accessibilityLabel("\(framework.displayName)")
+                                .accessibilityValue(developmentFrameworks.contains(framework) ? "Selected" : "Not selected")
+                                .accessibilityHint("Double tap to \(developmentFrameworks.contains(framework) ? "deselect" : "select") \(framework.displayName)")
+                                .accessibilityAddTraits(.isButton)
                         }
                     }
+                    .accessibilityElement(children: .contain)
                 }
                 
                 Section("Contact Details") {
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
+                        .accessibilityLabel("Email field")
+                        .accessibilityHint("Enter email address")
                     TextField("Phone", text: $phone)
                         .keyboardType(.phonePad)
+                        .accessibilityLabel("Phone number field")
+                        .accessibilityHint("Enter phone number")
                 }
                 
                 Section {
@@ -171,6 +198,8 @@ struct NewAttendeeView: View {
                 Section("Notes") {
                     TextEditor(text: $notes)
                         .frame(height: 100)
+                        .accessibilityLabel("Notes field")
+                        .accessibilityHint("Enter notes about this person")
                 }
             }
             .navigationTitle("\(toBeEditedAttendee == nil ? "New Attendee" : "Edit Profile")")
@@ -180,6 +209,8 @@ struct NewAttendeeView: View {
                     Button("Cancel") {
                         dismiss()
                     }
+                    .accessibilityLabel("Cancel")
+                    .accessibilityHint("Discard changes and close")
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -188,6 +219,8 @@ struct NewAttendeeView: View {
                             Button("Pick Existing", systemImage: "person.crop.circle.badge.plus") {
                                 existingAttendeePicker = true
                             }
+                            .accessibilityLabel("Pick existing attendee")
+                            .accessibilityHint("Select an attendee from your contacts")
                             .sheet(isPresented: $existingAttendeePicker) {
                                 ExistingAttendeePicker(event: event) { attendee in
                                     event.attendees.append(attendee)
@@ -219,6 +252,8 @@ struct NewAttendeeView: View {
                             dismiss()
                         }
                         .disabled(name.isEmpty)
+                        .accessibilityLabel("Save attendee")
+                        .accessibilityHint("Save attendee information and close")
                     }
                 }
             }

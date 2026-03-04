@@ -33,6 +33,7 @@ struct AttendeeItem: View {
                         .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
                         .frame(width: 50, height: 50)
                         .padding(.trailing, 10)
+                        .accessibilityHidden(true)
                     
                     VStack(alignment: .leading) {
                         Text(attendee.name)
@@ -47,16 +48,42 @@ struct AttendeeItem: View {
                     Spacer()
                 }
                 .padding(10)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(attendeeAccessibilityLabel)
+                .accessibilityHint("Double tap to view details about \(attendee.name)")
             } else {
                 attendee.profilePhotoCircle
                     .matchedTransitionSource(id: "\(attendee.id.uuidString)", in: namespace)
                     .matchedGeometryEffect(id: "\(attendee.id.uuidString)", in: namespace)
                 
                 .contentShape(.contextMenuPreview, .circle)
+                .accessibilityLabel(attendeeAccessibilityLabel)
+                .accessibilityHint("Double tap to view details, or hold for quick actions")
+                .accessibilityAddTraits(.isButton)
             }
         }
         .buttonStyle(.plain)
         .attendeeContextMenu(attendee: attendee)
+    }
+    
+    var attendeeAccessibilityLabel: String {
+        var label = attendee.name
+        
+        if !attendee.developmentPlatforms.isEmpty {
+            let platforms = attendee.developmentPlatforms.map { $0.title }.joined(separator: ", ")
+            label += ", develops for \(platforms)"
+        }
+        
+        if !attendee.developmentFrameworks.isEmpty {
+            let frameworks = attendee.developmentFrameworks.map { $0.displayName }.joined(separator: ", ")
+            label += ", using \(frameworks)"
+        }
+        
+        if let city = attendee.city, !city.isEmpty {
+            label += ", from \(city)"
+        }
+        
+        return label
     }
     
     func developerDetails() -> some View {
@@ -68,6 +95,7 @@ struct AttendeeItem: View {
                         Image(systemName: platform.iconName)
                             .font(.title3)
                             .fontWeight(.light)
+                            .accessibilityLabel(platform.title)
                     }
                 }
             }

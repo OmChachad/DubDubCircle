@@ -23,6 +23,8 @@ struct MemoriesView: View {
             Group {
                 if event.memories.isEmpty {
                     ContentUnavailableView("No memories yet", systemImage: "memories", description: Text("Add photos to remember this event.\nStart by clicking \(Image(systemName: "photo.badge.plus.fill"))"))
+                        .accessibilityLabel("No memories")
+                        .accessibilityHint("Tap the add photo button to add your first memory")
                 } else {
                     ScrollView(.horizontal) {
                         LazyHStack {
@@ -43,6 +45,9 @@ struct MemoriesView: View {
                         }
                         .scrollTargetLayout()
                     }
+                    .accessibilityLabel("Memories gallery")
+                    .accessibilityValue("\(event.memories.count) \(event.memories.count == 1 ? "photo" : "photos")")
+                    .accessibilityHint("Swipe left or right to view memories")
                 }
             }
             .navigationTitle("Memories")
@@ -55,11 +60,15 @@ struct MemoriesView: View {
                         isShowingPhotoPicker = true
                     }
                     .labelStyle(.iconOnly)
+                    .accessibilityLabel("Add photo")
+                    .accessibilityHint("Double tap to add a photo from your library")
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done", action: dismiss.callAsFunction)
                         .bold()
+                        .accessibilityLabel("Done")
+                        .accessibilityHint("Close memories view")
                 }
             }
         }

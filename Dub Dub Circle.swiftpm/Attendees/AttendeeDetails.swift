@@ -28,10 +28,12 @@ struct AttendeeDetails: View {
                         Text(attendee.name)
                             .font(.title)
                             .bold()
+                            .accessibilityAddTraits(.isHeader)
                     
                     if let city = attendee.city, !city.isEmpty {
                         Text("\(Image(systemName: "mappin.and.ellipse") ) \(city)")
                             .foregroundColor(.secondary)
+                            .accessibilityLabel("Location: \(city)")
                     }
                             
                     
@@ -44,6 +46,7 @@ struct AttendeeDetails: View {
                             developerDetails()
                         }
                     }
+                    .accessibilityElement(children: .combine)
                 }
                 .padding(.top, 10)
             }
@@ -54,6 +57,7 @@ struct AttendeeDetails: View {
             if !(attendee.companyName ?? "").isEmpty {
                 Section("Works at") {
                     Label(attendee.companyName!, systemImage: "suitcase.fill")
+                        .accessibilityLabel("Works at \(attendee.companyName!)")
                 }
             }
             
@@ -61,16 +65,20 @@ struct AttendeeDetails: View {
                 .onChange(of: attendeeNotes) {
                     attendee.notes = attendeeNotes
                 }
+                .accessibilityLabel("Notes about \(attendee.name)")
+                .accessibilityHint("Edit notes about this person")
             
             
             if !(attendee.phone ?? "").isEmpty || !(attendee.email ?? "").isEmpty {
                 Section("Contact") {
                     if let phoneNumber = attendee.phone {
                         LabeledContent("Phone Number", value: phoneNumber)
+                            .accessibilityLabel("Phone number: \(phoneNumber)")
                     }
                     
                     if let email = attendee.email {
                         LabeledContent("Email", value: email)
+                            .accessibilityLabel("Email: \(email)")
                     }
                 }
             }
@@ -83,21 +91,26 @@ struct AttendeeDetails: View {
 //                        .scaledToFill()
                         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .frame(maxWidth: .infinity, maxHeight: 400, alignment: .center)
+                        .accessibilityLabel("Business card image for \(attendee.name)")
                        
                     if let phoneNumber = businessCard.phone {
                         LabeledContent("Phone Number", value: phoneNumber)
+                            .accessibilityLabel("Business card phone number: \(phoneNumber)")
                     }
                     
                     if let email = businessCard.email {
                         LabeledContent("Email", value: email)
+                            .accessibilityLabel("Business card email: \(email)")
                     }
                     
                     if let address = businessCard.address {
                         LabeledContent("Address", value: address)
+                            .accessibilityLabel("Business card address: \(address)")
                     }
 
                     ForEach(businessCard.urls, id: \.self) { url in
                         LabeledContent("Website", value: url.absoluteString)
+                            .accessibilityLabel("Website: \(url.absoluteString)")
                     }
                 }
             }

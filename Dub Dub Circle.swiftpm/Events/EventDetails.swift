@@ -29,9 +29,11 @@ struct EventDetails: View {
             
             Text("My **\(event.title)** Circle")
                 .font(.largeTitle)
+                .accessibilityAddTraits(.isHeader)
             Text(event.date, style: .date)
                 .font(.title2)
                 .foregroundStyle(.secondary)
+                .accessibilityLabel("Event date: \(event.date.formatted(date: .long, time: .omitted))")
             
             if event.attendees.count > 0 {
                 Picker("View Style", selection: $viewStyle.animation()) {
@@ -46,6 +48,9 @@ struct EventDetails: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .frame(width: 80)
+                .accessibilityLabel("View style picker")
+                .accessibilityValue(viewStyle == .circular ? "Circular view" : "List view")
+                .accessibilityHint("Change between circular and list view of attendees")
             }
                 
             
@@ -64,6 +69,8 @@ struct EventDetails: View {
                     .contentMargins(.bottom, 120, for: .scrollContent)
                     .contentMargins(.bottom, 110, for: .scrollIndicators)
                     .padding()
+                    .accessibilityLabel("Attendees list")
+                    .accessibilityValue("\(event.attendees.count) \(event.attendees.count == 1 ? "attendee" : "attendees")")
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
             case .circular:
@@ -72,6 +79,8 @@ struct EventDetails: View {
                         .glow()
                         .frame(width: 150, height: 150)
                         .zIndex(2)
+                        .accessibilityLabel("Your profile")
+                        .accessibilityHint("Double tap to edit your profile")
                     
                     CircularList {
                         ForEach(event.attendees, id: \.self) { attendee in
@@ -86,6 +95,8 @@ struct EventDetails: View {
                                     Circle()
                                         .foregroundStyle(Color(uiColor: .systemGray5))
                                 }
+                                .accessibilityLabel("Add attendee")
+                                .accessibilityHint("Double tap to add a new attendee to this event")
                             }
                         }
                         
@@ -96,7 +107,12 @@ struct EventDetails: View {
                                 .foregroundStyle(Color(uiColor: .systemGray5))
                                 .overlay(Image(systemName: "plus").font(.largeTitle).foregroundStyle(.blue))
                         }
+                        .accessibilityLabel("Add attendee")
+                        .accessibilityHint("Double tap to add a new attendee to this event")
                     }
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel("Circular attendee view")
+                    .accessibilityValue("\(event.attendees.count) \(event.attendees.count == 1 ? "attendee" : "attendees")")
                 }
                 .frame(maxHeight: 700)
                 .padding(.bottom, event.attendees.count%7 == 0 && event.attendees.count != 0 ? 65 : 40)
@@ -134,6 +150,8 @@ struct EventDetails: View {
                 .buttonBorderShape(.circle)
                 .buttonStyle(.glassProminent)
                 .tint(.white)
+                .accessibilityLabel("Memories")
+                .accessibilityHint("Double tap to view and add photos from this event")
                 .sheet(isPresented: $showMemoriesView) {
                     MemoriesView(event: event)
                 }
@@ -151,6 +169,8 @@ struct EventDetails: View {
                     }
                     .buttonStyle(.glassProminent)
                     .tint(Color.accentColor.gradient)
+                    .accessibilityLabel("Add attendee")
+                    .accessibilityHint("Double tap to add a new attendee to this event")
                 }
                 
                 Spacer()
@@ -169,6 +189,8 @@ struct EventDetails: View {
                 .buttonStyle(.glassProminent)
                 .tint(Color.indigo.gradient)
 //                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
+                .accessibilityLabel("Journal")
+                .accessibilityHint("Double tap to view and write journal entries about this event")
                 .sheet(isPresented: $showJournalView) {
                     JournalView(event: event)
                 }
@@ -188,6 +210,7 @@ struct EventDetails: View {
                         .frame(height: 150)
                         .frame(maxWidth: .infinity)
                         .ignoresSafeArea(.all)
+                        .accessibilityHidden(true)
                 }
             }
             .sheet(isPresented: $showNewAttendeeView) {

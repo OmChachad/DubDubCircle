@@ -37,15 +37,23 @@ struct EventListItem: View {
             
             Spacer()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(event.title) event")
+        .accessibilityValue("at \(event.location?.name ?? "Online"), \(event.date.formatted(date: .long, time: .omitted)), \(event.attendees.count) \(event.attendees.count == 1 ? "attendee" : "attendees")")
+        .accessibilityHint("Swipe up for actions")
         .swipeActions {
             Button("Delete", systemImage: "trash") {
                 showDeleteConfirmation = true
             }
             .tint(.red)
+            .accessibilityLabel("Delete \(event.title) event")
+            .accessibilityHint("Double tap to delete this event")
             
             Button("Edit", systemImage: "pencil") {
                 showEditSheet = true
             }
+            .accessibilityLabel("Edit \(event.title) event")
+            .accessibilityHint("Double tap to edit event details")
         }
         .sheet(isPresented: $showEditSheet) {
             NewEventView(editing: event)
